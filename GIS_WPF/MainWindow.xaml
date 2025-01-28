@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GIS_WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid x:Name="grid1">
+        Title="MainWindow"  WindowStartupLocation="CenterScreen" WindowState="Maximized">
+    <Grid x:Name="grid1" >
 
     </Grid>
 </Window>
