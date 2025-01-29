@@ -43,9 +43,9 @@ namespace GIS_WPF
             viewport_lines.Add(new Line2D(viewport_points[2], viewport_points[3]));
             viewport_lines.Add(new Line2D(viewport_points[3], viewport_points[0]));
 
-            buffer_points.Add(new Point2D(330, 30));
+            buffer_points.Add(new Point2D(380, 30));
             buffer_points.Add(new Point2D(850, 600));
-            buffer_points.Add(new Point2D(300,  600));
+            buffer_points.Add(new Point2D(100,  600));
 
 
             buffer_lines.Add(new Line2D(buffer_points[0], buffer_points[1]));
@@ -74,6 +74,43 @@ namespace GIS_WPF
 
             return number;
         }
+
+        public void Cohen(Line2D line)
+        {
+            int num1 = getXorY(line.P1);
+            int num2 = getXorY(line.P2);
+            if ((num1 == 0) && (num2 == 0))
+            {
+                line.descr = "inside viewport";
+                line.line = 1;
+            }
+            else
+                if ((num1 & num2) != 0)
+            {
+                line.descr = "не пересекает viewport";
+                line.line = 2;
+
+            }
+            else
+                if ((num1 & num2) != 0)
+            {
+                line.descr = "возможно пересекает viewport";
+                line.line = 3;
+
+            }
+
+            if (line.line==3) //Пересекает и находим точки пересечения с Viewport'ом
+            {
+                for(int i = 0; i < 4; i++)
+                {
+                    int num=getXorY(line.P1);
+                    if (num != 0) // т.е. Первая точка линии точно не попадает в Viewport
+                    {
+
+                    }
+                }
+            }
+        }
         private void Check_Lines()
         {
             byte LEFT_OF_VIEWPORT  = 1; // левее
@@ -87,28 +124,28 @@ namespace GIS_WPF
             //foreach(var pt in viewport_lines)
             for (int i = 0; i < buffer_lines.Count; i++) 
             {
+                Cohen(buffer_lines[i]);
+                //int num1 = getXorY(buffer_lines[i].P1);
+                //int num2 = getXorY(buffer_lines[i].P2);
+                //if ((num1 == 0) && (num2 == 0))
+                //{
+                //    buffer_lines[i].descr = "Inside ViewPort";
+                //    buffer_lines[i].line = 1;
+                //}
+                //else
+                //    if ((num1 & num2) != 0)
+                //{
+                //    buffer_lines[i].descr = "Не пересекает ViewPort";
+                //    buffer_lines[i].line = 2;
 
-                int num1 = getXorY(buffer_lines[i].P1);
-                int num2 = getXorY(buffer_lines[i].P2);
-                if ((num1 == 0) && (num2 == 0))
-                {
-                    buffer_lines[i].descr = "Inside ViewPort";
-                    buffer_lines[i].line = 1;
-                }
-                else
-                    if ((num1 & num2) != 0)
-                {
-                    buffer_lines[i].descr = "Не пересекает ViewPort";
-                    buffer_lines[i].line = 2;
+                //}
+                //else
+                //    if ((num1 & num2) != 0)
+                //{
+                //    buffer_lines[i].descr = "Возможно пересекает ViewPort";
+                //    buffer_lines[i].line = 3;
 
-                }
-                else
-                    if ((num1 & num2) != 0)
-                {
-                    buffer_lines[i].descr = "Возможно пересекает ViewPort";
-                    buffer_lines[i].line = 3;
-
-                }
+                //}
             }
 
             //foreach(var pt in buffer_points)

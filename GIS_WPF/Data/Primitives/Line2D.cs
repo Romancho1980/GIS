@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GIS_WPF.Data.Primitives
 {
-    internal class Line2D
+    public class Line2D
     {
         public Point2D P1 { get; set; }
         public Point2D P2 { get; set; }

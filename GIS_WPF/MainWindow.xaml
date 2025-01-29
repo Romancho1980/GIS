@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:GIS_WPF"
         mc:Ignorable="d"
         Title="MainWindow"  WindowStartupLocation="CenterScreen" WindowState="Maximized">
-    <Grid x:Name="grid1" >
+    <Grid x:Name="grid1" Width="1920" Height="1080" >
+        <Button Content="Button" HorizontalAlignment="Center" Margin="0,909,0,0" VerticalAlignment="Top" Height="40" Width="130" RenderTransformOrigin="0.515,0.046"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="1090,909,0,0" VerticalAlignment="Top" Height="40" Width="130" RenderTransformOrigin="0.515,0.046"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="705,909,0,0" VerticalAlignment="Top" Height="40" Width="130" RenderTransformOrigin="0.515,0.046"/>
 
     </Grid>
 </Window>
