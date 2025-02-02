@@ -43,7 +43,7 @@ namespace GIS_WPF
             viewport_lines.Add(new Line2D(viewport_points[2], viewport_points[3]));
             viewport_lines.Add(new Line2D(viewport_points[3], viewport_points[0]));
 
-            buffer_points.Add(new Point2D(380, 30));
+            buffer_points.Add(new Point2D(380, 30)); 
             buffer_points.Add(new Point2D(850, 600));
             buffer_points.Add(new Point2D(100,  600));
 
