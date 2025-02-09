@@ -43,5 +43,10 @@ namespace GIS_WinForms
         {
             panel.removeRandomPoint();
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            panel.ClearAll();
+        }
     }
 }

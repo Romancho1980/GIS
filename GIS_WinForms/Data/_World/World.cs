@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace GIS_WinForms.Data._World
 {
-    internal class World
+    public class World
     {
         public int Xmin { get; set; } = 350;
         public int Ymin { get; set; } = 150;

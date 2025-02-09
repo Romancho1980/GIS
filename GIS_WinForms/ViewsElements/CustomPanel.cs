@@ -11,6 +11,8 @@ namespace GIS_WinForms.ViewsElements
 
         Graph graph;
 
+        GraphEditor graphEditor;
+
         private void InitPanel()
         {
             Dock = DockStyle.None;
@@ -25,13 +27,16 @@ namespace GIS_WinForms.ViewsElements
             InitPanel();
             graph = new Graph(this.Size.Width, this.Size.Height);
             world = new World(this.Size.Width,this.Size.Height);
+            graphEditor = new GraphEditor(graph,this.Size.Width, this.Size.Height);
 
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
             e.Graphics.Clear(Color.Aqua);
-            world.Draw(e);
+            graphEditor.display(e);
+            //graph.Draw(e);
+            //world.Draw(e);
             //e.Graphics.DrawLine(Pens.Black, new PointF(0,0), new PointF(this.Size.Width,this.Size.Height));
         }
 
@@ -124,5 +129,17 @@ namespace GIS_WinForms.ViewsElements
             Refresh();
 
         }
+
+        internal void ClearAll()
+        {
+            //world.world_segments.Clear();
+            //world.world_vertices.Clear();
+            graph.segments.Clear();
+            graph.vertices.Clear();
+            Refresh();
+        }
+
+
+
     }
 }
