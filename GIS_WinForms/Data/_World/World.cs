@@ -214,5 +214,33 @@ namespace GIS_WinForms.Data._World
 
             return false;
         }
+
+        internal void RemoveSegment(Segment segment)
+        {
+            world_segments.Remove(segment);
+        }
+
+        internal void RemoveVectices(Vertices vertices)
+        {
+            world_vertices.Remove(vertices);
+            // + Удалить нужно Сегменты, которые содержат эту вершину
+            List<Segment> seg = new List<Segment>();
+            seg=getSegmentsWithPoint(vertices);
+            if (seg != null)
+                foreach (var segm in seg)
+                    world_segments.Remove(segm);
+
+        }
+
+        private List<Segment> getSegmentsWithPoint(Vertices vertices)
+        {
+            List<Segment> tmp=new List<Segment> ();
+            foreach(var seg in world_segments)
+            {
+                if (seg.IncludesPoint(vertices)== true) tmp.Add(seg);
+            }
+
+            return tmp;
+        }
     }
 }

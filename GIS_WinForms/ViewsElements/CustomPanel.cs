@@ -66,12 +66,13 @@ namespace GIS_WinForms.ViewsElements
             int index2 = Convert.ToInt32(rndIndex2);
 
 
-            index1 = 1;
-            index2 = 3;
+            //index1 = 1; // For Debuging
+            //index2 = 3;
 
             Debug.WriteLine($"rndIndex1: {index1}");
             Debug.WriteLine($"rndIndex2: {index2}");
 
+            if (index1>=0  && index2>=0)
             if (index1!=index2)
             {
                 Success=world.TryAddSegment(new Segment(world.world_vertices[index1],
@@ -79,7 +80,49 @@ namespace GIS_WinForms.ViewsElements
             }
 
             Debug.WriteLine($"Success: {Success}");
+            Debug.WriteLine($"Количество Сегментов {world.world_segments.Count}");
             Refresh();
+        }
+
+        internal void removeRandomSegment()
+        {
+            if (world.world_segments.Count==0)
+            {
+                Debug.WriteLine("No Segments");
+                return;
+            }
+
+            Random rnd = new Random();
+            bool Success = false;
+            double rndIndex1 = rnd.NextDouble() * (world.world_segments.Count - 1);
+            int index1 = Convert.ToInt32(rndIndex1);
+            if (index1 <= world.world_segments.Count - 1) world.RemoveSegment(world.world_segments[index1]);
+
+            Debug.WriteLine($"Removed Index: {index1} ");
+            Debug.WriteLine($"Num of Segments: {world.world_segments.Count}");
+            Refresh();
+
+
+        }
+
+        internal void removeRandomPoint()
+        {
+            if (world.world_vertices.Count == 0)
+            {
+                Debug.WriteLine("No any Vertices... List is empty");
+                return;
+            }
+
+            Random rnd = new Random();
+            bool Success = false;
+            double rndIndex1 = rnd.NextDouble() * (world.world_vertices.Count - 1);
+            int index1 = Convert.ToInt32(rndIndex1);
+            world.RemoveVectices(world.world_vertices[index1]);
+
+            Debug.WriteLine($"Removed Index: {index1} ");
+            Debug.WriteLine($"Num of Vertices: {world.world_vertices.Count}");
+            Refresh();
+
         }
     }
 }

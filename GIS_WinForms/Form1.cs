@@ -33,5 +33,15 @@ namespace GIS_WinForms
         {
             panel.addRandomSegment();
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            panel.removeRandomSegment();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            panel.removeRandomPoint();
+        }
     }
 }

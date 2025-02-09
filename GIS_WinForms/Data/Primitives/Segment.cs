@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.DirectoryServices.ActiveDirectory;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -83,6 +84,20 @@ namespace GIS_WinForms.Data.Primitives
             {
 
             }
+        }
+
+        public bool EqualSegment(Segment seg)
+        {
+            if (IncludesPoint(seg.P1) && (IncludesPoint(seg.P2)))
+                return true;
+
+            return false;
+        }
+
+        public bool IncludesPoint(Vertices vert)
+        {
+            if ((this.P1.Equals(vert) == true)||(this.P2.Equals(vert) == true)) return true;
+            return false;
         }
     }
 }

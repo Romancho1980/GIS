@@ -24,6 +24,11 @@ namespace GIS_WinForms.Data.Primitives
             Y = y;
         }
 
+        public bool Equals(Vertices vert)
+        {
+            if (vert.X == X && vert.Y == Y) return true;
+            return false;
+        }
         public void Draw(PaintEventArgs e,int size=18,string color="Black")
         {
             int radius = size / 2;
