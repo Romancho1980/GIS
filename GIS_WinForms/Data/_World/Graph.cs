@@ -127,12 +127,12 @@ namespace GIS_WinForms.Data._World
 
         //}
 
-        public void Draw(PaintEventArgs e)
+        public void Draw(PaintEventArgs e,bool outline=false)
         {
             if (e != null)
             {
                 Draw_Segments(e);
-                Draw_Vertices(e);
+                Draw_Vertices(e,outline);
             }
         }
 
@@ -145,13 +145,13 @@ namespace GIS_WinForms.Data._World
             return false;
         }
 
-        private void Draw_Vertices(PaintEventArgs e)
+        private void Draw_Vertices(PaintEventArgs e,bool outline=false)
         {
             // throw new NotImplementedException();
             foreach (var vert in vertices)
             {
                 if (isPointInViewport(vert) == true)
-                    vert.Draw(e, 30, "Black");
+                    vert.Draw(e, 30, "Black",outline);
             }
         }
 

@@ -29,7 +29,7 @@ namespace GIS_WinForms.Data.Primitives
             if (vert.X == X && vert.Y == Y) return true;
             return false;
         }
-        public void Draw(PaintEventArgs e,int size=18,string color="Black")
+        public void Draw(PaintEventArgs e,int size=20,string color="Black",bool outline=false)
         {
             int radius = size / 2;
             int centerX = radius / 2;
@@ -46,11 +46,11 @@ namespace GIS_WinForms.Data.Primitives
 
             // Rectangle with specifies x1,
             // y1, x2, y2 respectively
-            Rectangle rect = new Rectangle(0, 0, 100, 200);
+            //Rectangle rect = new Rectangle(0, 0, 100, 200);
 
-            // Create start and sweep angles on ellipse.
-            float startAngle = 45.0F;
-            float sweepAngle = 270.0F;
+            //// Create start and sweep angles on ellipse.
+            //float startAngle = 45.0F;
+            //float sweepAngle = 270.0F;
 
             // Draw arc to screen.
             //e.Graphics.DrawArc(blackPen, rect,
@@ -58,6 +58,13 @@ namespace GIS_WinForms.Data.Primitives
 
             //e.Graphics.DrawArc(blackPen, X - centerX, Y - centerY, radius, radius, 0, 360);
             e.Graphics.FillEllipse(brush, X - centerX, Y - centerY, radius, radius);
+            if (outline == true)
+            {
+                Brush brush1 = new SolidBrush(Color.Yellow);
+
+                e.Graphics.FillEllipse(brush1, X - centerX*0.7F, Y - centerY*0.7F, radius*0.7F, radius*0.7F);
+                e.Graphics.FillEllipse(brush, X - centerX*0.5F, Y - centerY*0.5F, radius*0.5F, radius*0.5F);
+            }
 
         }
     }

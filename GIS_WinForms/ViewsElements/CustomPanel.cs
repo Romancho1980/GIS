@@ -27,7 +27,7 @@ namespace GIS_WinForms.ViewsElements
             InitPanel();
             graph = new Graph(this.Size.Width, this.Size.Height);
             world = new World(this.Size.Width,this.Size.Height);
-            graphEditor = new GraphEditor(graph,this.Size.Width, this.Size.Height);
+            graphEditor = new GraphEditor(this,graph,this.Size.Width, this.Size.Height);
 
         }
 
