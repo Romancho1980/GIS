@@ -48,7 +48,7 @@ namespace GIS_WinForms.Data._World
 
             //_cohen_Sutherland = new Cohen_Sutherland();
 
-            Generate_World();
+            //Generate_World();
 
         }
     }

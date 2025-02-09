@@ -38,7 +38,7 @@
             // 
             button1.Location = new Point(238, 599);
             button1.Name = "button1";
-            button1.Size = new Size(75, 23);
+            button1.Size = new Size(107, 23);
             button1.TabIndex = 1;
             button1.Text = "Add Point";
             button1.UseVisualStyleBackColor = true;
@@ -46,12 +46,13 @@
             // 
             // button2
             // 
-            button2.Location = new Point(463, 599);
+            button2.Location = new Point(440, 599);
             button2.Name = "button2";
-            button2.Size = new Size(75, 23);
+            button2.Size = new Size(127, 23);
             button2.TabIndex = 2;
-            button2.Text = "button2";
+            button2.Text = "Add Segment";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // button3
             // 

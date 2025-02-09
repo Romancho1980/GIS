@@ -1,4 +1,5 @@
 using GIS_WinForms.ViewsElements;
+using System.Diagnostics;
 
 namespace GIS_WinForms
 {
@@ -26,6 +27,11 @@ namespace GIS_WinForms
         private void button1_Click(object sender, EventArgs e)
         {
             panel.addRandomPoint();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            panel.addRandomSegment();
         }
     }
 }

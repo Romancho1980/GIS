@@ -1,8 +1,11 @@
 ﻿using GIS_WinForms.Data.Primitives;
 using GIS_WinForms.Services.Algorythm;
+using Microsoft.VisualBasic.Logging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,10 +13,11 @@ namespace GIS_WinForms.Data._World
 {
     internal class World
     {
-        int Xmin = 350;
-        int Ymin = 150;
-        int Xmax = 1500;
-        int Ymax = 750;
+        public int Xmin { get; set; } = 350;
+        public int Ymin { get; set; } = 150;
+        public int Xmax { get; set; } = 1500;
+        public int Ymax { get; set; } = 750;
+
 
         public List<Vertices> viewport_points;
 
@@ -139,6 +143,76 @@ namespace GIS_WinForms.Data._World
                 if (seg.Visible!= false) seg.Draw(e);
             }
 
+        }
+
+        internal void AddPoint(Vertices vert)
+        {
+            world_vertices.Add(vert);   
+            //world_vertices.Add(new Vertices(vert.X, vert.Y));
+        }
+
+
+        private bool ContainsPoint(Vertices vert)
+        {
+            //if (world_vertices.Contains(vert) == true) return true;
+
+            //return false;
+
+            if (world_vertices!= null)
+                foreach(var vertices in world_vertices)
+                {
+                    if ((vertices.X == vert.X) && (vertices.Y == vert.Y)) return true;
+                }
+
+            return false;
+        }
+
+        internal bool TryAddPoint(Vertices vertices)
+        {
+            Debug.WriteLine($" Количество точек : {world_vertices.Count}");
+
+            if (ContainsPoint(vertices) == false) // если точки нет в List , то
+            {
+                AddPoint(vertices);             // Добавляем точку
+                return true;
+            }
+            
+            return false;
+
+        }
+
+        internal bool TryAddSegment(Segment segment)
+        {
+            if (ContainSegment(segment) == false) // Если нет сегмента в списке
+            {
+                AddSegment(segment);              // то добавляем к коллекцию
+                return true;
+            }
+            return false;
+        }
+
+        private void AddSegment(Segment segment)
+        {
+            world_segments.Add(segment);
+        }
+
+        private bool ContainSegment(Segment segment)
+        {
+            if (world_segments != null)
+                foreach (var seg in world_segments)
+                {
+                    if (((seg.P1.X == segment.P1.X) && (seg.P1.Y == segment.P1.Y) &&
+                        (seg.P2.X == segment.P2.X) && (seg.P2.Y == segment.P2.Y)) ||
+
+                            ((seg.P1.X == segment.P2.X) && (seg.P1.Y == segment.P2.Y) &&
+                            (seg.P2.X == segment.P1.X) && (seg.P2.Y == segment.P1.Y)))
+                    {
+                        return true;
+                    }
+                   // if ((vertices.X == vert.X) && (vertices.Y == vert.Y)) return true;
+                }
+
+            return false;
         }
     }
 }
