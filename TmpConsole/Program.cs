@@ -1,6 +1,7 @@
 ﻿
 using TmpConsole.Services.Telnet;
 using TmpConsole.Services.TelnetClient;
+using TmpConsole.TmpServices;
 
 namespace TmpConsole
 {
@@ -8,6 +9,9 @@ namespace TmpConsole
     {
         public static async Task Main(string[] args)
         {
+            tmpSegment tmp=new tmpSegment();
+
+            return;
             TelnetServer server = new TelnetServer();
             try
             {
