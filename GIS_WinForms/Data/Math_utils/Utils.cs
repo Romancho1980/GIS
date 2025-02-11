@@ -16,7 +16,8 @@ namespace GIS_WinForms.Data.Math_utils
 
             foreach (var point in points)
             {
-                double dist = distance(point, loc);
+               // double dist = distance(point, loc);
+                double dist = distance_wo_sqrt(point, loc);
                 if (dist < minDist && dist < threshold)
                 {
                     minDist = Convert.ToInt32(dist);
@@ -32,6 +33,13 @@ namespace GIS_WinForms.Data.Math_utils
             double dy = (p1.Y - p2.Y) * (p1.Y - p2.Y);
             return Math.Sqrt(dx + dy);
 
+        }
+
+        private static double distance_wo_sqrt(Vertices p1, Vertices p2)
+        {
+            double dx = (p1.X - p2.X) * (p1.X - p2.X);
+            double dy = (p1.Y - p2.Y) * (p1.Y - p2.Y);
+            return (dx + dy);
         }
     }
 }

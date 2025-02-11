@@ -29,9 +29,9 @@ namespace GIS_WinForms.Data.Primitives
             if (vert.X == X && vert.Y == Y) return true;
             return false;
         }
-        public void Draw(PaintEventArgs e,int size=20,string color="Black",bool outline=false)
+        public void Draw(PaintEventArgs e,int size=15,string color="Black",bool outline=false)
         {
-            int radius = size / 2;
+            int radius = size ;
             int centerX = radius / 2;
             int centerY = radius / 2;
 
@@ -60,11 +60,16 @@ namespace GIS_WinForms.Data.Primitives
             e.Graphics.FillEllipse(brush, X - centerX, Y - centerY, radius, radius);
             if (outline == true)
             {
-                Brush brush1 = new SolidBrush(Color.Yellow);
+                Pen pen = new Pen(Color.RebeccaPurple, 2);
+                Rectangle rect = new Rectangle(X - centerX, Y - centerY, size, size);
 
-                e.Graphics.FillEllipse(brush1, X - centerX*0.7F, Y - centerY*0.7F, radius*0.7F, radius*0.7F);
-                e.Graphics.FillEllipse(brush, X - centerX*0.5F, Y - centerY*0.5F, radius*0.5F, radius*0.5F);
+                e.Graphics.DrawEllipse(pen, rect);
             }
+            //    Brush brush1 = new SolidBrush(Color.Yellow);
+
+            //    e.Graphics.FillEllipse(brush1, X - centerX*0.7F, Y - centerY*0.7F, radius*0.7F, radius*0.7F);
+            //    e.Graphics.FillEllipse(brush, X - centerX*0.5F, Y - centerY*0.5F, radius*0.5F, radius*0.5F);
+            //}
 
         }
     }

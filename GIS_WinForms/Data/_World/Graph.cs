@@ -151,7 +151,7 @@ namespace GIS_WinForms.Data._World
             foreach (var vert in vertices)
             {
                 if (isPointInViewport(vert) == true)
-                    vert.Draw(e, 30, "Black",outline);
+                    vert.Draw(e, 20, "Black",outline);
             }
         }
 
@@ -161,14 +161,17 @@ namespace GIS_WinForms.Data._World
             {
                 //seg.ClipAndDrawSegment(e);
                 _cohen_Sutherland.ClipSegment(seg);
-                if (seg.Visible != false) seg.Draw(e);
+                if (seg.Visible != false) 
+                    seg.Draw(e);
             }
 
         }
 
         internal void AddPoint(Vertices vert)
         {
+           // Vertices newVertices = new Vertices(vert.X,vert.Y);
             vertices.Add(vert);
+            //vertices.Add(new Vertices(vert.X,vert.Y));
             //world_vertices.Add(new Vertices(vert.X, vert.Y));
         }
 
@@ -217,6 +220,7 @@ namespace GIS_WinForms.Data._World
             segments.Add(seg);
         }
 
+        // Проверка, что есть такой сегмент в графе или нет
         private bool ContainSegment(Segment seg)
         {
             if (segments != null)
@@ -236,23 +240,26 @@ namespace GIS_WinForms.Data._World
             return false;
         }
 
+        //Удаляем сегмент (ребро) графа
         internal void RemoveSegment(Segment segm)
         {
             segments.Remove(segm);
         }
 
+        // Удаляем вершину графа
         internal void RemoveVectices(Vertices vert)
         {
             vertices.Remove(vert);
             // + Удалить нужно Сегменты, которые содержат эту вершину
             List<Segment> seg = new List<Segment>();
-            seg = getSegmentsWithPoint(vert);
+            seg = getSegmentsWithPoint(vert); // Можно отрефакторить и не возвращать список, а удалить "в методе". :)
             if (seg != null)
                 foreach (var segm in seg)
                     segments.Remove(segm);
 
         }
 
+        // Получить сегменты, в которых есть удаляемая точка
         private List<Segment> getSegmentsWithPoint(Vertices vert)
         {
             List<Segment> tmp = new List<Segment>();

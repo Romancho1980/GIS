@@ -7,7 +7,7 @@ namespace GIS_WinForms.ViewsElements
 {
     public class CustomPanel:Panel
     {
-        World world;
+      //  World world;
 
         Graph graph;
 
@@ -26,7 +26,7 @@ namespace GIS_WinForms.ViewsElements
         {
             InitPanel();
             graph = new Graph(this.Size.Width, this.Size.Height);
-            world = new World(this.Size.Width,this.Size.Height);
+         //   world = new World(this.Size.Width,this.Size.Height);
             graphEditor = new GraphEditor(this,graph,this.Size.Width, this.Size.Height);
 
         }
@@ -51,8 +51,8 @@ namespace GIS_WinForms.ViewsElements
 
             //rnd1 = 0.5; // Для тестирования
             //rnd2 = 0.5;
-            bool success=world.TryAddPoint(new Vertices(Convert.ToInt32(rnd1*world.Xmax), 
-                                        Convert.ToInt32(rnd2*world.Ymax)));
+            bool success= graph.TryAddPoint(new Vertices(Convert.ToInt32(rnd1* graph.Xmax), 
+                                        Convert.ToInt32(rnd2* graph.Ymax)));
 
             Debug.WriteLine($" Success : {success}");
 
@@ -63,9 +63,9 @@ namespace GIS_WinForms.ViewsElements
         {
             Random rnd = new Random();
             bool Success = false;
-            double rndIndex1=rnd.NextDouble() * (world.world_vertices.Count-1);
+            double rndIndex1=rnd.NextDouble() * (graph.vertices.Count-1);
             rnd.NextDouble();
-            double rndIndex2=rnd.NextDouble() * (world.world_vertices.Count-1);
+            double rndIndex2=rnd.NextDouble() * (graph.vertices.Count-1);
 
             int index1 = Convert.ToInt32(rndIndex1);
             int index2 = Convert.ToInt32(rndIndex2);
@@ -80,18 +80,18 @@ namespace GIS_WinForms.ViewsElements
             if (index1>=0  && index2>=0)
             if (index1!=index2)
             {
-                Success=world.TryAddSegment(new Segment(world.world_vertices[index1],
-                                                world.world_vertices[index2]));
+                Success= graph.TryAddSegment(new Segment(graph.vertices[index1],
+                                                graph.vertices[index2]));
             }
 
             Debug.WriteLine($"Success: {Success}");
-            Debug.WriteLine($"Количество Сегментов {world.world_segments.Count}");
+            Debug.WriteLine($"Количество Сегментов {graph.segments.Count}");
             Refresh();
         }
 
         internal void removeRandomSegment()
         {
-            if (world.world_segments.Count==0)
+            if (graph.segments.Count==0)
             {
                 Debug.WriteLine("No Segments");
                 return;
@@ -99,12 +99,12 @@ namespace GIS_WinForms.ViewsElements
 
             Random rnd = new Random();
             bool Success = false;
-            double rndIndex1 = rnd.NextDouble() * (world.world_segments.Count - 1);
+            double rndIndex1 = rnd.NextDouble() * (graph.segments.Count - 1);
             int index1 = Convert.ToInt32(rndIndex1);
-            if (index1 <= world.world_segments.Count - 1) world.RemoveSegment(world.world_segments[index1]);
+            if (index1 <= graph.segments.Count - 1) graph.RemoveSegment(graph.segments[index1]);
 
             Debug.WriteLine($"Removed Index: {index1} ");
-            Debug.WriteLine($"Num of Segments: {world.world_segments.Count}");
+            Debug.WriteLine($"Num of Segments: {graph.segments.Count}");
             Refresh();
 
 
@@ -112,7 +112,7 @@ namespace GIS_WinForms.ViewsElements
 
         internal void removeRandomPoint()
         {
-            if (world.world_vertices.Count == 0)
+            if (graph.vertices.Count == 0)
             {
                 Debug.WriteLine("No any Vertices... List is empty");
                 return;
@@ -120,12 +120,12 @@ namespace GIS_WinForms.ViewsElements
 
             Random rnd = new Random();
             bool Success = false;
-            double rndIndex1 = rnd.NextDouble() * (world.world_vertices.Count - 1);
+            double rndIndex1 = rnd.NextDouble() * (graph.vertices.Count - 1);
             int index1 = Convert.ToInt32(rndIndex1);
-            world.RemoveVectices(world.world_vertices[index1]);
+            graph.RemoveVectices(graph.vertices[index1]);
 
             Debug.WriteLine($"Removed Index: {index1} ");
-            Debug.WriteLine($"Num of Vertices: {world.world_vertices.Count}");
+            Debug.WriteLine($"Num of Vertices: {graph.vertices.Count}");
             Refresh();
 
         }
