@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.DirectoryServices.ActiveDirectory;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,8 +28,6 @@ namespace GIS_WinForms.Data.Primitives
 
         // Просто описание чего-то
         public string descr { get; set; } = "";
-
-
 
         public Segment()
         {
@@ -88,13 +87,21 @@ namespace GIS_WinForms.Data.Primitives
             P2pointF = new PointF(x2, y2);
         }
 
-        public void Draw(PaintEventArgs e, int width = 2, string color = "black")
+        public void Draw(PaintEventArgs e, int width = 2, string color = "black",bool dash=false)
         {
             // Draw Lipped by Cohen_Sutherland Algorythm
 
             //e.Graphics.DrawLine(Pens.Black, new PointF(P1_Clip.X,P1_Clip.Y),
             //                                new PointF(P2_Clip.X,P2_Clip.Y));
 
+            Pen pen = new Pen(Color.Black);
+
+            if (dash == true)
+            {
+                pen.DashStyle = DashStyle.Dash;
+            }
+            else
+                pen.DashStyle = DashStyle.Solid;
 
             PointF pointF1 = P1pointF;
             PointF pointF2 = P1pointF;
@@ -105,7 +112,7 @@ namespace GIS_WinForms.Data.Primitives
             pointF2.Y = P2_Clip.Y;
 
             //e.Graphics.DrawLine(Pens.Black,pointF1,pointF2);
-            e.Graphics.DrawLine(Pens.Black,new PointF(P1_Clip.X,P1_Clip.Y),new PointF(P2_Clip.X,P2_Clip.Y));
+            e.Graphics.DrawLine(pen,new PointF(P1_Clip.X,P1_Clip.Y),new PointF(P2_Clip.X,P2_Clip.Y));
            // e.Graphics.DrawLine(Pens.Black, P1pointF,P2pointF);
         }
 

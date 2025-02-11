@@ -24,6 +24,15 @@ namespace GIS_WinForms.Data.Primitives
             Y = y;
         }
 
+        public void getValue(Vertices? data)
+        {
+            if (data != null)
+            {
+            this.X=data.X; this.Y=data.Y;
+
+            }
+        }
+
         public bool Equals(Vertices vert)
         {
             if (vert.X == X && vert.Y == Y) return true;

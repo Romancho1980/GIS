@@ -19,12 +19,15 @@ namespace GIS_WinForms.Data._World
 
         bool dragging = false;                              // Перетаскиваем ?
 
+        public Vertices MouseCoord { get; set; }
+
         public GraphEditor(CustomPanel panel,Graph graph, int width, int height)
         {
             this.customPanel = panel;
             this.graph = graph;
             selected = null;
             hovered = new();
+            MouseCoord = new();
 
             customPanel.MouseDown += CustomPanel_MouseDown;
             customPanel.MouseMove += CustomPanel_MouseMove;
@@ -44,6 +47,9 @@ namespace GIS_WinForms.Data._World
         // Обработчик события мыши, когда она перемещается по экрану
         private void CustomPanel_MouseMove(object? sender, MouseEventArgs e)
         {
+            MouseCoord.Y = e.Y;
+            MouseCoord.X = e.X;
+
             //Debug.WriteLine("Mouse Moved");
             Vertices mouse = new Vertices(e.X, e.Y);
             hovered = Math_utils.Utils.getNearestPoint(mouse, graph.vertices,900); // 900 - это не настоящее расстояние,
@@ -74,6 +80,8 @@ namespace GIS_WinForms.Data._World
         /// <param name="e"></param>
         private void CustomPanel_MouseDown(object? sender, MouseEventArgs e)
         {
+            MouseCoord.X = e.X;
+            MouseCoord.Y = e.Y;
             Debug.WriteLine("Mouse Down on Panel");
 
             // if right button clicked
@@ -81,16 +89,19 @@ namespace GIS_WinForms.Data._World
             // Мы удалим вершину (Vertics) из списка вершин
             if (e.Button == MouseButtons.Right) // Правая кнопка
             {
+                if (selected != null)
+                    selected = null;
+                else
                 // Удаляем вершину, если нажата правая кнопка мыши, Hover - вершина, на которую наведенена мышь (hovered)
                 if (hovered != null)
                 {
                     RemoveVectices(hovered); // Удаляем
                 }
-                else
-                // А если нажата правая кнопка вне вершины, то "снимаем" выбранную вершину
-                {
-                    selected = null;
-                }
+                //else
+                //// А если нажата правая кнопка вне вершины, то "снимаем" выбранную вершину
+                //{
+                //    selected = null;
+                //}
             }
 
             if (e.Button == MouseButtons.Left) // Левая кнопка
@@ -114,9 +125,9 @@ namespace GIS_WinForms.Data._World
               // graph.AddPoint(new Vertices(mouse.X, mouse.Y));
 
                 // Создаём ребро, если существует пред. точка
+                    graph.AddPoint(mouse);
                 if (selected != null)
                 {
-                    graph.AddPoint(mouse);
                    // graph.AddPoint(new Vertices(mouse.X, mouse.Y));
                     graph.TryAddSegment(new Segment(selected, mouse));
                     //graph.TryAddSegment(new Segment(new Vertices(selected.X,selected.Y), 
@@ -152,6 +163,16 @@ namespace GIS_WinForms.Data._World
             }
             if (selected != null)
             {
+                Vertices intent = new();
+
+                if (hovered != null)
+                    intent.getValue(hovered);
+                else
+                    intent.getValue(MouseCoord);
+
+                Segment tmp = new Segment(selected, intent);
+                tmp.Draw(e, 2, "black", true);
+
                 selected.Draw(e,16,"Red",true);
             }
         }
