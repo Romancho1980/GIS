@@ -111,13 +111,16 @@ namespace GIS_WinForms.Data._World
                        // Debug.WriteLine($"Selected {selected.X} :{selected.Y}");
                         return;
                     }
-                graph.AddPoint(mouse);
               // graph.AddPoint(new Vertices(mouse.X, mouse.Y));
 
                 // Создаём ребро, если существует пред. точка
                 if (selected != null)
                 {
+                    graph.AddPoint(mouse);
+                   // graph.AddPoint(new Vertices(mouse.X, mouse.Y));
                     graph.TryAddSegment(new Segment(selected, mouse));
+                    //graph.TryAddSegment(new Segment(new Vertices(selected.X,selected.Y), 
+                    //                                new Vertices(mouse.X,mouse.Y)));
                 }
                 selected = mouse;
                 hovered = mouse;
