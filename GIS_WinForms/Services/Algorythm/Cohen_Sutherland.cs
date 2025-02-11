@@ -282,8 +282,12 @@ namespace GIS_WinForms.Services.Algorythm
         {
             if (Check_Line_ver2(seg, 0) == true) seg.Visible = true;
             else seg.Visible = false;
+        }
 
-
+        public void ChangeViewportSize(int xmax, int ymax)
+        {
+            Xmax = xmax;
+            Ymax = ymax;
         }
     }
 }

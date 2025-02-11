@@ -11,12 +11,21 @@ namespace GIS_WinForms.Data._World
         public int Xmax { get; set; } = 1500;
         public int Ymax { get; set; } = 750;
 
+
+        public int XmaxScaled { get; set; }
+        public int YmaxScaled { get; set; }
+
         public List<Vertices> viewport_points;
 
         public List<Segment> segments;
         public List<Vertices> vertices;
         private Cohen_Sutherland _cohen_Sutherland;
 
+
+        public void ChangeViewportForCohenSutherlandAlgorythm(int Xmax,int Ymax)
+        {
+            _cohen_Sutherland.ChangeViewportSize(Xmax, Ymax);
+        }
         public Graph(List<Vertices> vert, List<Segment> seg)
         {
             if (vert != null)

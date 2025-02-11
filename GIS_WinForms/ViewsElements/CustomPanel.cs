@@ -12,6 +12,7 @@ namespace GIS_WinForms.ViewsElements
         Graph graph;
 
         GraphEditor graphEditor;
+        Viewport viewport;
 
         private void InitPanel()
         {
@@ -21,23 +22,59 @@ namespace GIS_WinForms.ViewsElements
             Location = new Point(41, 61);
             DoubleBuffered = true;
 
+            // Сделаем по индусски.
+            // Если сработал вызов события от мыши - прокрутка колеса, то изменяем масштаб окна, для отсечения в 
+            // алгоритме Кохена - Сазерленда :)
+            this.MouseWheel += CustomPanel_MouseWheel;
+
         }
+
+
+        private void CustomPanel_MouseWheel(object? sender, MouseEventArgs e)
+        {
+            // Измением масштаб окна
+            //graph.Xmin = graph.Xmin / Convert.ToInt32(viewport.zoom);
+            //graph.Ymin = graph.Xmin / Convert.ToInt32(viewport.zoom);
+
+            //graph.XmaxScaled = graph.Xmax * Convert.ToInt32(viewport.zoom);
+            //graph.YmaxScaled = graph.Ymax * Convert.ToInt32(viewport.zoom);
+
+
+            int Xmax = graph.Xmax * Convert.ToInt32(viewport.zoom);
+            int Ymax=graph.Ymax * Convert.ToInt32(viewport.zoom);
+
+            graph.XmaxScaled = Xmax;
+            graph.YmaxScaled = Ymax;
+
+            graph.ChangeViewportForCohenSutherlandAlgorythm(Xmax, Ymax);
+
+            Debug.WriteLine($"{graph.XmaxScaled} : {graph.YmaxScaled}");
+
+
+        }
+
         public CustomPanel()
         {
             InitPanel();
             graph = new Graph(this.Size.Width, this.Size.Height);
+            viewport = new Viewport(this); // Init Viewport и передам CustomPanel
          //   world = new World(this.Size.Width,this.Size.Height);
-            graphEditor = new GraphEditor(this,graph,this.Size.Width, this.Size.Height);
+            //graphEditor = new GraphEditor(this,graph,this.Size.Width, this.Size.Height);
+            graphEditor = new GraphEditor(this,viewport,graph,this.Size.Width, this.Size.Height);
 
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
             e.Graphics.Clear(Color.Aqua);
+            e.Graphics.DrawLine(Pens.Black, new PointF(0,0), new PointF(graph.Xmax,graph.Ymax));
+            e.Graphics.DrawLine(Pens.Black, new PointF(0,graph.Ymax), new PointF(graph.Xmax,0));
+
+           // this.Scale(SizeF(viewport.zoom));
+           e.Graphics.ScaleTransform(1/viewport.zoom,1/viewport.zoom);
             graphEditor.display(e);
             //graph.Draw(e);
             //world.Draw(e);
-            //e.Graphics.DrawLine(Pens.Black, new PointF(0,0), new PointF(this.Size.Width,this.Size.Height));
         }
 
         internal void addRandomPoint()
@@ -138,8 +175,5 @@ namespace GIS_WinForms.ViewsElements
             graph.vertices.Clear();
             Refresh();
         }
-
-
-
     }
 }

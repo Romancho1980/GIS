@@ -13,6 +13,7 @@ namespace GIS_WinForms.Data._World
     {
         Graph graph;                                // Сам граф
         CustomPanel customPanel;
+        Viewport viewport;
 
         public Vertices? selected { get; set; }     // Выбранная вершина
         public Vertices? hovered { get; set; }      // Курсор мыши наведён на вершину графа
@@ -21,10 +22,12 @@ namespace GIS_WinForms.Data._World
 
         public Vertices MouseCoord { get; set; }
 
-        public GraphEditor(CustomPanel panel,Graph graph, int width, int height)
+        public GraphEditor(CustomPanel panel,Viewport viewport, Graph graph, int width, int height)
         {
             this.customPanel = panel;
             this.graph = graph;
+            this.viewport = viewport;
+
             selected = null;
             hovered = new();
             MouseCoord = new();
@@ -47,11 +50,24 @@ namespace GIS_WinForms.Data._World
         // Обработчик события мыши, когда она перемещается по экрану
         private void CustomPanel_MouseMove(object? sender, MouseEventArgs e)
         {
-            MouseCoord.Y = e.Y;
-            MouseCoord.X = e.X;
+            //MouseCoord.Y = e.Y;
+            //MouseCoord.X = e.X;
+            MouseCoord.X = Convert.ToInt32(e.X * viewport.zoom);
+            MouseCoord.Y = Convert.ToInt32(e.Y * viewport.zoom);
 
             //Debug.WriteLine("Mouse Moved");
             Vertices mouse = new Vertices(e.X, e.Y);
+            //Vertices mouse = new Vertices();
+            //viewport.getMouse(e);
+
+
+            Vertices Scaledmouse = new Vertices();
+            Scaledmouse = viewport.getMouse(e);
+            //Vertices mouse = new Vertices(e.X, e.Y);
+            mouse = Scaledmouse;
+
+
+
             hovered = Math_utils.Utils.getNearestPoint(mouse, graph.vertices,900); // 900 - это не настоящее расстояние,
                                                                                    // потому что в методе не извлекается корень
                                                                                    // для увеличения скорости алгоритма
@@ -80,8 +96,8 @@ namespace GIS_WinForms.Data._World
         /// <param name="e"></param>
         private void CustomPanel_MouseDown(object? sender, MouseEventArgs e)
         {
-            MouseCoord.X = e.X;
-            MouseCoord.Y = e.Y;
+            MouseCoord.X = Convert.ToInt32(e.X * viewport.zoom);
+            MouseCoord.Y = Convert.ToInt32(e.Y * viewport.zoom) ;
             Debug.WriteLine("Mouse Down on Panel");
 
             // if right button clicked
@@ -106,7 +122,10 @@ namespace GIS_WinForms.Data._World
 
             if (e.Button == MouseButtons.Left) // Левая кнопка
             {
+                Vertices Scaledmouse = new Vertices();
+                Scaledmouse = viewport.getMouse(e);
                 Vertices mouse = new Vertices(e.X,e.Y);
+                mouse = Scaledmouse;
               //  hovered = Math_utils.Utils.getNearestPoint(mouse, graph.vertices,20);
                 if (hovered != null) 
                     {
