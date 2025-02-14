@@ -40,6 +40,10 @@ namespace GIS_WinForms.Data.Primitives
             P2pointF= new PointF(); 
 
         }
+        public override string ToString()
+        {
+            return $"от {P1.ToString()} до {P2.ToString()}";
+        }
         public Segment(Vertices p1, Vertices p2)//: this()
         {
 
@@ -87,7 +91,7 @@ namespace GIS_WinForms.Data.Primitives
             P2pointF = new PointF(x2, y2);
         }
 
-        public void Draw(PaintEventArgs e, int width = 2, string color = "black",bool dash=false)
+        public void Draw(PaintEventArgs e, int width = 2, string color = "black", bool dash = false)
         {
             // Draw Lipped by Cohen_Sutherland Algorythm
 
@@ -112,7 +116,13 @@ namespace GIS_WinForms.Data.Primitives
             pointF2.Y = P2_Clip.Y;
 
             //e.Graphics.DrawLine(Pens.Black,pointF1,pointF2);
-            e.Graphics.DrawLine(pen,new PointF(P1_Clip.X,P1_Clip.Y),new PointF(P2_Clip.X,P2_Clip.Y));
+
+            // P1_Clip и P2_Clip - Это отсечение, 
+            // с помощ алгоритма 
+            // Кохена - Сазерленда
+            // e.Graphics.DrawLine(pen,new PointF(P1_Clip.X,P1_Clip.Y),new PointF(P2_Clip.X,P2_Clip.Y)); 
+
+            e.Graphics.DrawLine(pen, new PointF(P1.X, P1.Y), new PointF(P2.X, P2.Y)); // P1 P2 - Не используя алгоритм К-З :)
            // e.Graphics.DrawLine(Pens.Black, P1pointF,P2pointF);
         }
 

@@ -9,6 +9,7 @@ namespace GIS_WinForms.Data.Math_utils
 {
     public static class Utils
     {
+        // Нахождение ближайшей точки из коллекции point к точке с координатами loc
         public static Vertices? getNearestPoint(Vertices loc, List<Vertices> points, int threshold = Int32.MaxValue)
         {
             var minDist = Int32.MaxValue;
@@ -27,6 +28,19 @@ namespace GIS_WinForms.Data.Math_utils
             return nearest;
         }
 
+        // Вычитание векторов
+        public static Vertices Substract(Vertices end, Vertices start)
+        {
+            return new Vertices(end.X - start.X, end.Y - start.Y);
+        }
+
+        // Сложение векторов
+        public static Vertices Add(Vertices end, Vertices start)
+        {
+            return new Vertices(end.X + start.X, end.Y + start.Y);
+        }
+
+        // Расстояние между двумя точками, в данном методе извлекаю квадратный корень
         private static double distance(Vertices p1, Vertices p2)
         {
             double dx = (p1.X - p2.X) * (p1.X - p2.X);
@@ -35,11 +49,19 @@ namespace GIS_WinForms.Data.Math_utils
 
         }
 
+        // Расстояние между точками.
+        // Не вычисляю квардратный корень для быстродействия, т.к. метод применяется для нахождения ближаёшей точки, 
+        // поэтому решил (точнее DeepSeek подсказал) не извлекать корень
         private static double distance_wo_sqrt(Vertices p1, Vertices p2)
         {
             double dx = (p1.X - p2.X) * (p1.X - p2.X);
             double dy = (p1.Y - p2.Y) * (p1.Y - p2.Y);
             return (dx + dy);
+        }
+
+        public static Vertices Scale(Vertices p, float scaler)
+        {
+            return new Vertices(Convert.ToInt32(p.X * scaler), Convert.ToInt32(p.Y * scaler));
         }
     }
 }

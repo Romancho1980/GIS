@@ -28,8 +28,8 @@ namespace GIS_WinForms.Data.Primitives
         {
             if (data != null)
             {
-            this.X=data.X; this.Y=data.Y;
-
+                this.X = data.X; 
+                this.Y = data.Y;
             }
         }
 
@@ -38,7 +38,11 @@ namespace GIS_WinForms.Data.Primitives
             if (vert.X == X && vert.Y == Y) return true;
             return false;
         }
-        public void Draw(PaintEventArgs e,int size=15,string color="Black",bool outline=false)
+        public override string ToString()
+        {
+            return $"{X} : {Y}";
+        }
+        public void Draw(PaintEventArgs e, int size = 15, string color = "Black", bool outline = false)
         {
             int radius = size ;
             int centerX = radius / 2;
@@ -79,7 +83,6 @@ namespace GIS_WinForms.Data.Primitives
             //    e.Graphics.FillEllipse(brush1, X - centerX*0.7F, Y - centerY*0.7F, radius*0.7F, radius*0.7F);
             //    e.Graphics.FillEllipse(brush, X - centerX*0.5F, Y - centerY*0.5F, radius*0.5F, radius*0.5F);
             //}
-
         }
     }
 }

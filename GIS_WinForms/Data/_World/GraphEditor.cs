@@ -1,4 +1,5 @@
-﻿using GIS_WinForms.Data.Primitives;
+﻿using GIS_WinForms.Data.Math_utils;
+using GIS_WinForms.Data.Primitives;
 using GIS_WinForms.ViewsElements;
 using System;
 using System.Collections.Generic;
@@ -52,8 +53,15 @@ namespace GIS_WinForms.Data._World
         {
             //MouseCoord.Y = e.Y;
             //MouseCoord.X = e.X;
+
+            Vertices tmp_offset= new Vertices();
+            tmp_offset = viewport.getOffset();
+
+            Debug.WriteLine($"{tmp_offset.X} : {tmp_offset.Y}");
+            Debug.WriteLine($"{e.X} : {e.Y}");
+
             MouseCoord.X = Convert.ToInt32(e.X * viewport.zoom);
-            MouseCoord.Y = Convert.ToInt32(e.Y * viewport.zoom);
+            MouseCoord.Y = Convert.ToInt32(e.Y * viewport.zoom);//new                                                                              
 
             //Debug.WriteLine("Mouse Moved");
             Vertices mouse = new Vertices(e.X, e.Y);
@@ -189,8 +197,15 @@ namespace GIS_WinForms.Data._World
                 else
                     intent.getValue(MouseCoord);
 
+                Debug.WriteLine($" viewport.Center {viewport.Center.ToString()}");
+                Debug.WriteLine($" viewport.Offset {viewport.Offset.ToString()}");
+                Debug.WriteLine($" Intent   {intent.ToString()}");
+                Debug.WriteLine($" Selected {selected.ToString()}");
+                //intent = Utils.Substract(intent, viewport.Center);
                 Segment tmp = new Segment(selected, intent);
-                tmp.Draw(e, 2, "black", true);
+                //tmp = Utils.Substract(tmp, viewport.Center);
+                Debug.WriteLine($"{tmp.ToString()}");
+                tmp.Draw(e, 2, "black", true); // Рисуем пунктирную линию
 
                 selected.Draw(e,16,"Red",true);
             }

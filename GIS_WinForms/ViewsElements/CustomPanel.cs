@@ -2,6 +2,7 @@
 using GIS_WinForms.Data.Primitives;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using System.Drawing.Drawing2D;
 
 namespace GIS_WinForms.ViewsElements
 {
@@ -41,7 +42,7 @@ namespace GIS_WinForms.ViewsElements
 
 
             int Xmax = graph.Xmax * Convert.ToInt32(viewport.zoom);
-            int Ymax=graph.Ymax * Convert.ToInt32(viewport.zoom);
+            int Ymax = graph.Ymax * Convert.ToInt32(viewport.zoom);
 
             graph.XmaxScaled = Xmax;
             graph.YmaxScaled = Ymax;
@@ -58,21 +59,31 @@ namespace GIS_WinForms.ViewsElements
             InitPanel();
             graph = new Graph(this.Size.Width, this.Size.Height);
             viewport = new Viewport(this); // Init Viewport и передам CustomPanel
-         //   world = new World(this.Size.Width,this.Size.Height);
-            //graphEditor = new GraphEditor(this,graph,this.Size.Width, this.Size.Height);
-            graphEditor = new GraphEditor(this,viewport,graph,this.Size.Width, this.Size.Height);
+                                           //   world = new World(this.Size.Width,this.Size.Height);
+                                           //graphEditor = new GraphEditor(this,graph,this.Size.Width, this.Size.Height);
+            graphEditor = new GraphEditor(this, viewport, graph, this.Size.Width, this.Size.Height);
 
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
+            GraphicsState state = e.Graphics.Save();
             e.Graphics.Clear(Color.Aqua);
-            e.Graphics.DrawLine(Pens.Black, new PointF(0,0), new PointF(graph.Xmax,graph.Ymax));
-            e.Graphics.DrawLine(Pens.Black, new PointF(0,graph.Ymax), new PointF(graph.Xmax,0));
+            //e.Graphics.DrawLine(Pens.Black, new PointF(0, 0), new PointF(graph.Xmax, graph.Ymax));
+            //e.Graphics.DrawLine(Pens.Black, new PointF(0, graph.Ymax), new PointF(graph.Xmax, 0));
 
-           // this.Scale(SizeF(viewport.zoom));
-           e.Graphics.ScaleTransform(1/viewport.zoom,1/viewport.zoom);
+            // this.Scale(SizeF(viewport.zoom));
+
+            e.Graphics.TranslateTransform(viewport.Center.X,viewport.Center.Y);
+            e.Graphics.ScaleTransform(1 / viewport.zoom, 1 / viewport.zoom);
+
+            Vertices tmp_Offset = new Vertices();
+            tmp_Offset = viewport.getOffset();
+
+//            e.Graphics.TranslateTransform(viewport.drag.offset.X, viewport.drag.offset.Y);
+            e.Graphics.TranslateTransform(tmp_Offset.X, tmp_Offset.Y);
             graphEditor.display(e);
+            e.Graphics.Restore(state);
             //graph.Draw(e);
             //world.Draw(e);
         }

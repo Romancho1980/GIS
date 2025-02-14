@@ -108,6 +108,9 @@ namespace GIS_WinForms.Data._World
             Xmax = width;
             Ymax = height;
 
+            XmaxScaled = Xmax;
+            YmaxScaled = Ymax;
+
             viewport_points = new List<Vertices>();
             segments = new List<Segment>();
             vertices = new List<Vertices>();
@@ -147,9 +150,15 @@ namespace GIS_WinForms.Data._World
 
         private bool isPointInViewport(Vertices vert)
         {
-            if ((vert.X >= Xmin) & (vert.X <= Xmax))
-                if ((vert.Y >= Ymin) & (vert.Y <= Ymax))
+            // Использую масштабированные координаты Viewport'а
+            if ((vert.X >= Xmin) & (vert.X <= XmaxScaled)) 
+                if ((vert.Y >= Ymin) & (vert.Y <= YmaxScaled))
                     return true;
+
+            //if ((vert.X >= Xmin) & (vert.X <= Xmax))
+            //    if ((vert.Y >= Ymin) & (vert.Y <= Ymax))
+            //        return true;
+
 
             return false;
         }
@@ -168,10 +177,13 @@ namespace GIS_WinForms.Data._World
         {
             foreach (var seg in segments)
             {
-                //seg.ClipAndDrawSegment(e);
-                _cohen_Sutherland.ClipSegment(seg);
-                if (seg.Visible != false) 
-                    seg.Draw(e);
+                ////seg.ClipAndDrawSegment(e);
+                //_cohen_Sutherland.ClipSegment(seg);
+                //if (seg.Visible != false) 
+                //    seg.Draw(e);
+
+                seg.Draw(e); // Не используя алгоритм отсечения
+
             }
 
         }
