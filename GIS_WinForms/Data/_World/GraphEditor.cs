@@ -60,8 +60,14 @@ namespace GIS_WinForms.Data._World
             //Debug.WriteLine($"{tmp_offset.X} : {tmp_offset.Y}");
             //Debug.WriteLine($"{e.X} : {e.Y}");
 
-            MouseCoord.X = Convert.ToInt32(e.X * viewport.zoom);
-            MouseCoord.Y = Convert.ToInt32(e.Y * viewport.zoom);//new                                                                              
+
+            Vertices tmp_MouseCoord = new Vertices(); // :)
+            tmp_MouseCoord= viewport.getMouse(e);
+            MouseCoord.X = tmp_MouseCoord.X;
+            MouseCoord.Y = tmp_MouseCoord.Y;
+
+            //MouseCoord.X = Convert.ToInt32(e.X * viewport.zoom);
+            //MouseCoord.Y = Convert.ToInt32(e.Y * viewport.zoom);//new                                                                              
 
             //Debug.WriteLine("Mouse Moved");
             Vertices mouse = new Vertices(e.X, e.Y);
