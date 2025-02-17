@@ -57,8 +57,8 @@ namespace GIS_WinForms.Data._World
             Vertices tmp_offset= new Vertices();
             tmp_offset = viewport.getOffset();
 
-            Debug.WriteLine($"{tmp_offset.X} : {tmp_offset.Y}");
-            Debug.WriteLine($"{e.X} : {e.Y}");
+            //Debug.WriteLine($"{tmp_offset.X} : {tmp_offset.Y}");
+            //Debug.WriteLine($"{e.X} : {e.Y}");
 
             MouseCoord.X = Convert.ToInt32(e.X * viewport.zoom);
             MouseCoord.Y = Convert.ToInt32(e.Y * viewport.zoom);//new                                                                              
@@ -106,6 +106,8 @@ namespace GIS_WinForms.Data._World
         {
             MouseCoord.X = Convert.ToInt32(e.X * viewport.zoom);
             MouseCoord.Y = Convert.ToInt32(e.Y * viewport.zoom) ;
+
+            Debug.WriteLine($"Mouse coodr X{MouseCoord.X} : Y {MouseCoord.Y}");
             Debug.WriteLine("Mouse Down on Panel");
 
             // if right button clicked
@@ -202,6 +204,8 @@ namespace GIS_WinForms.Data._World
                 Debug.WriteLine($" Intent   {intent.ToString()}");
                 Debug.WriteLine($" Selected {selected.ToString()}");
                 //intent = Utils.Substract(intent, viewport.Center);
+                intent.X *= (Int32) viewport.zoom;
+                intent.Y *= (Int32) viewport.zoom;
                 Segment tmp = new Segment(selected, intent);
                 //tmp = Utils.Substract(tmp, viewport.Center);
                 Debug.WriteLine($"{tmp.ToString()}");

@@ -74,8 +74,8 @@ namespace GIS_WinForms.ViewsElements
 
             // this.Scale(SizeF(viewport.zoom));
 
-            e.Graphics.TranslateTransform(viewport.Center.X,viewport.Center.Y);
             e.Graphics.ScaleTransform(1 / viewport.zoom, 1 / viewport.zoom);
+            e.Graphics.TranslateTransform(viewport.Center.X,viewport.Center.Y);
 
             Vertices tmp_Offset = new Vertices();
             tmp_Offset = viewport.getOffset();

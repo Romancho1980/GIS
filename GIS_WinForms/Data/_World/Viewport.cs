@@ -162,10 +162,15 @@ namespace GIS_WinForms.Data._World
             return new Vertices(Utils.Add(Offset, drag.offset).X, 
                                 Utils.Add(Offset, drag.offset).Y);
         }
+
+
+        // Перевод положения курсоры мыши , 
         public Vertices getMouse(MouseEventArgs evt)
         {
-            return new Vertices(Convert.ToInt32((evt.X - Center.X) * zoom) - Offset.X,
-                                Convert.ToInt32((evt.Y - Center.Y) * zoom) - Offset.Y);
+            //return new Vertices(Convert.ToInt32((evt.X - Center.X) * zoom) - Offset.X,
+            //                    Convert.ToInt32((evt.Y - Center.Y) * zoom) - Offset.Y);
+
+            return new Vertices((Int32)(evt.X * zoom), (Int32)(evt.Y * zoom));
         }
     }
 }
