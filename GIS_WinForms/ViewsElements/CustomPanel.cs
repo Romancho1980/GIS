@@ -15,8 +15,11 @@ namespace GIS_WinForms.ViewsElements
         GraphEditor graphEditor;
         Viewport viewport;
 
+        Vertices Offset {  get; set; }
+
         private void InitPanel()
         {
+            Offset = new Vertices();    
             Dock = DockStyle.None;
             Width = 905;
             Height = 485;
@@ -74,14 +77,16 @@ namespace GIS_WinForms.ViewsElements
 
             // this.Scale(SizeF(viewport.zoom));
 
+            e.Graphics.TranslateTransform(viewport.Center.X, viewport.Center.Y);
             e.Graphics.ScaleTransform(1 / viewport.zoom, 1 / viewport.zoom);
-            e.Graphics.TranslateTransform(viewport.Center.X,viewport.Center.Y);
+//            Vertices tmp_Offset = new Vertices();
+//            tmp_Offset = viewport.getOffset();
+            Offset = viewport.getOffset();
+            e.Graphics.TranslateTransform(Offset.X, Offset.Y);
 
-            Vertices tmp_Offset = new Vertices();
-            tmp_Offset = viewport.getOffset();
 
 //            e.Graphics.TranslateTransform(viewport.drag.offset.X, viewport.drag.offset.Y);
-            e.Graphics.TranslateTransform(tmp_Offset.X, tmp_Offset.Y);
+//            e.Graphics.TranslateTransform(tmp_Offset.X, tmp_Offset.Y);
             graphEditor.display(e);
             e.Graphics.Restore(state);
             //graph.Draw(e);

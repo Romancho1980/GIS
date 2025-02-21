@@ -1,6 +1,7 @@
 ﻿using GIS_WinForms.Data.Math_utils;
 using GIS_WinForms.Data.Primitives;
 using GIS_WinForms.ViewsElements;
+using GIS_WinForms.Data.Math_utils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -22,6 +23,7 @@ namespace GIS_WinForms.Data._World
         bool dragging = false;                              // Перетаскиваем ?
 
         public Vertices MouseCoord { get; set; }
+        public Vertices Mouse { get; set; }
 
         public GraphEditor(CustomPanel panel,Viewport viewport, Graph graph, int width, int height)
         {
@@ -32,6 +34,7 @@ namespace GIS_WinForms.Data._World
             selected = null;
             hovered = new();
             MouseCoord = new();
+            Mouse = new();
 
             customPanel.MouseDown += CustomPanel_MouseDown;
             customPanel.MouseMove += CustomPanel_MouseMove;
@@ -51,50 +54,63 @@ namespace GIS_WinForms.Data._World
         // Обработчик события мыши, когда она перемещается по экрану
         private void CustomPanel_MouseMove(object? sender, MouseEventArgs e)
         {
-            //MouseCoord.Y = e.Y;
-            //MouseCoord.X = e.X;
+            ////MouseCoord.Y = e.Y;
+            ////MouseCoord.X = e.X;
 
-            Vertices tmp_offset= new Vertices();
-            tmp_offset = viewport.getOffset();
+            //Vertices tmp_offset= new Vertices();
+            //tmp_offset = viewport.getOffset();
 
-            //Debug.WriteLine($"{tmp_offset.X} : {tmp_offset.Y}");
-            //Debug.WriteLine($"{e.X} : {e.Y}");
-
-
-            Vertices tmp_MouseCoord = new Vertices(); // :)
-            tmp_MouseCoord= viewport.getMouse(e);
-            MouseCoord.X = tmp_MouseCoord.X;
-            MouseCoord.Y = tmp_MouseCoord.Y;
-
-            //MouseCoord.X = Convert.ToInt32(e.X * viewport.zoom);
-            //MouseCoord.Y = Convert.ToInt32(e.Y * viewport.zoom);//new                                                                              
-
-            //Debug.WriteLine("Mouse Moved");
-            Vertices mouse = new Vertices(e.X, e.Y);
-            //Vertices mouse = new Vertices();
-            //viewport.getMouse(e);
+            ////Debug.WriteLine($"{tmp_offset.X} : {tmp_offset.Y}");
+            ////Debug.WriteLine($"{e.X} : {e.Y}");
 
 
-            Vertices Scaledmouse = new Vertices();
-            Scaledmouse = viewport.getMouse(e);
+            //Vertices tmp_MouseCoord = new Vertices(); // :)
+            //tmp_MouseCoord= viewport.getMouse(e);
+            //Mymouse = viewport.getMouse(e);
+            //MouseCoord.X = tmp_MouseCoord.X;
+            //MouseCoord.Y = tmp_MouseCoord.Y;
+
+            ////MouseCoord.X = Convert.ToInt32(e.X * viewport.zoom);
+            ////MouseCoord.Y = Convert.ToInt32(e.Y * viewport.zoom);//new                                                                              
+
+            ////Debug.WriteLine("Mouse Moved");
             //Vertices mouse = new Vertices(e.X, e.Y);
-            mouse = Scaledmouse;
+            ////Vertices mouse = new Vertices();
+            ////viewport.getMouse(e);
+
+
+            //Vertices Scaledmouse = new Vertices();
+            //Scaledmouse = viewport.getMouse(e);
+            ////Vertices mouse = new Vertices(e.X, e.Y);
+            //mouse = Scaledmouse;
 
 
 
-            hovered = Math_utils.Utils.getNearestPoint(mouse, graph.vertices,900); // 900 - это не настоящее расстояние,
-                                                                                   // потому что в методе не извлекается корень
-                                                                                   // для увеличения скорости алгоритма
-                                                                                   // Гипотенуза^2 = dx^2+dy^2
+            //hovered = Math_utils.Utils.getNearestPoint(mouse, graph.vertices, 100 * (Int32)(viewport.zoom)); // 900 - это не настоящее расстояние,
+            //                                                                       // потому что в методе не извлекается корень
+            //                                                                       // для увеличения скорости алгоритма
+            //                                                                       // Гипотенуза^2 = dx^2+dy^2
 
-            // если "перетаскиваем", т.е. нажата кнопка мыши
-            // то мы меняем координаты выбранной вершины, на текущие координаты мыши
+            //// если "перетаскиваем", т.е. нажата кнопка мыши
+            //// то мы меняем координаты выбранной вершины, на текущие координаты мыши
+            //if (dragging == true)
+            //{
+            //    if (selected!=null)
+            //    {
+            //        selected.X = mouse.X;
+            //        selected.Y = mouse.Y;
+            //    }
+            //}
+
+
+            Mouse = this.viewport.getMouse(e,true);
+            hovered = Utils.getNearestPoint(Mouse, graph.vertices, 100 * (Int32)(viewport.zoom));
             if (dragging == true)
             {
-                if (selected!=null)
+                if (selected != null)
                 {
-                    selected.X = mouse.X;
-                    selected.Y = mouse.Y;
+                    selected.X = Mouse.X;
+                    selected.Y = Mouse.Y;
                 }
             }
             customPanel.Refresh();
@@ -113,6 +129,9 @@ namespace GIS_WinForms.Data._World
             MouseCoord.X = Convert.ToInt32(e.X * viewport.zoom);
             MouseCoord.Y = Convert.ToInt32(e.Y * viewport.zoom) ;
 
+            MouseCoord=viewport.getMouse(e);
+
+            Mouse = viewport.getMouse(e);
             Debug.WriteLine($"Mouse coodr X{MouseCoord.X} : Y {MouseCoord.Y}");
             Debug.WriteLine("Mouse Down on Panel");
 
@@ -124,11 +143,19 @@ namespace GIS_WinForms.Data._World
                 if (selected != null)
                     selected = null;
                 else
-                // Удаляем вершину, если нажата правая кнопка мыши, Hover - вершина, на которую наведенена мышь (hovered)
-                if (hovered != null)
-                {
+                if (hovered != null) 
                     RemoveVectices(hovered); // Удаляем
-                }
+
+
+
+                //if (selected != null)
+                //    selected = null;
+                //else
+                //// Удаляем вершину, если нажата правая кнопка мыши, Hover - вершина, на которую наведенена мышь (hovered)
+                //if (hovered != null)
+                //{
+                //    RemoveVectices(hovered); // Удаляем
+                //}
                 //else
                 //// А если нажата правая кнопка вне вершины, то "снимаем" выбранную вершину
                 //{
@@ -138,6 +165,8 @@ namespace GIS_WinForms.Data._World
 
             if (e.Button == MouseButtons.Left) // Левая кнопка
             {
+                Mouse = viewport.getMouse(e);
+
                 Vertices Scaledmouse = new Vertices();
                 Scaledmouse = viewport.getMouse(e);
                 Vertices mouse = new Vertices(e.X,e.Y);
@@ -160,16 +189,16 @@ namespace GIS_WinForms.Data._World
               // graph.AddPoint(new Vertices(mouse.X, mouse.Y));
 
                 // Создаём ребро, если существует пред. точка
-                    graph.AddPoint(mouse);
+                    graph.AddPoint(Mouse);
                 if (selected != null)
                 {
                    // graph.AddPoint(new Vertices(mouse.X, mouse.Y));
-                    graph.TryAddSegment(new Segment(selected, mouse));
+                    graph.TryAddSegment(new Segment(selected, Mouse));
                     //graph.TryAddSegment(new Segment(new Vertices(selected.X,selected.Y), 
                     //                                new Vertices(mouse.X,mouse.Y)));
                 }
-                selected = mouse;
-                hovered = mouse;
+                selected = Mouse;
+                hovered = Mouse;
             }
 //                Debug.WriteLine($"Selected {selected.X} :{selected.Y}");
                 customPanel.Refresh();
@@ -203,15 +232,16 @@ namespace GIS_WinForms.Data._World
                 if (hovered != null)
                     intent.getValue(hovered);
                 else
-                    intent.getValue(MouseCoord);
+                   // intent.getValue(MouseCoord);
+                    intent.getValue(Mouse);
 
-                Debug.WriteLine($" viewport.Center {viewport.Center.ToString()}");
-                Debug.WriteLine($" viewport.Offset {viewport.Offset.ToString()}");
-                Debug.WriteLine($" Intent   {intent.ToString()}");
-                Debug.WriteLine($" Selected {selected.ToString()}");
+                //Debug.WriteLine($" viewport.Center {viewport.Center.ToString()}");
+                //Debug.WriteLine($" viewport.Offset {viewport.Offset.ToString()}");
+                //Debug.WriteLine($" Intent   {intent.ToString()}");
+                //Debug.WriteLine($" Selected {selected.ToString()}");
                 //intent = Utils.Substract(intent, viewport.Center);
-                intent.X *= (Int32) viewport.zoom;
-                intent.Y *= (Int32) viewport.zoom;
+              //  intent.X *= (Int32) viewport.zoom;
+              //  intent.Y *= (Int32) viewport.zoom;
                 Segment tmp = new Segment(selected, intent);
                 //tmp = Utils.Substract(tmp, viewport.Center);
                 Debug.WriteLine($"{tmp.ToString()}");

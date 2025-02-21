@@ -13,10 +13,10 @@ namespace GIS_WinForms.Data._World
 {
     public struct Drag
     {
-        public Vertices start;
-        public Vertices end;
-        public Vertices offset;
-        public bool active;
+        public Vertices start;  // Координаты начала "перетаскивания", т.е. когда надата средняя кнопка мыши
+        public Vertices end;    // Координаты конца перетаскивания, т.е. когда отпущена средняя кнопка мыши
+        public Vertices offset; // Вычисляем вектор перемещения, т.е. dX и dY
+        public bool active;     // Бит - нажата ли средняя кнопка мыши, т.е. происходит ли сейчас перетаскивание
 
         public Drag()
         {
@@ -26,24 +26,7 @@ namespace GIS_WinForms.Data._World
             active = false;
         }
 
-        public void setStart(int x,int y)
-        {
-            start.X = x;
-            start.Y = y;
-        }
-
-        public void setEnd(int x,int y)
-        {
-            end.X = x;
-            end.Y = y;
-        }
-        public void setOffset(int x,int y)
-        {
-            offset.X = x;
-            offset.Y = y;
-        }
-
-        public void Reset()
+        public void ResetDraggingInfo()
         {
             start = new Vertices(0, 0);
             end = new Vertices(0, 0);
@@ -55,17 +38,17 @@ namespace GIS_WinForms.Data._World
     public class Viewport
     {
 
-        public Drag drag;
-        public Vertices Offset; // Смещение относительно начала координат
+        private Drag drag; // Информация о начале перетаскивания, т.е. начальная точка (когда нажата средняя кнопка) и конец - когда отпустили кнопку
+        public Vertices Offset { get; set; } // Смещение верхнего левого угла Viewport относительно начала координат, т.е тоже верхнего левого угла
         public CustomPanel panel { get; set; }
-        public float zoom { get; set; }
+        public float zoom { get; set; }//Масштаб
         public Vertices Center { get; set; }
 
         public Viewport(CustomPanel panel)
         {
             drag = new Drag();
             //Offset = new Vertices(0, 0);//
-            Center = new(panel.Width/2,panel.Height/2);
+            Center = new(panel.Width / 2, panel.Height / 2);
             Offset = Utils.Scale(Center, -1.0F);
             this.panel = panel;
             this.zoom = 1;
@@ -80,22 +63,12 @@ namespace GIS_WinForms.Data._World
             panel.MouseWheel += HandleMouseWheel; // Масштабирование
 
             // ************* Перетаскивание ***************
-            panel.MouseDown += HandleMouseDown;
+            panel.MouseDown += HandleMiddleMouseDown;
             panel.MouseMove += HandleMouseMove;
-            panel.MouseUp += HandleMouseUp;
+            panel.MouseUp += HandleMiddleMouseUp;
         }
 
-        private void SetOffset()
-        {
-            Vertices tmpOffset = new();
-            tmpOffset = Utils.Add(Offset, drag.offset);// Из-за того что ссылочные типы, приходится выполнять такие
-                                                       // приседания;
-
-            Offset.X = tmpOffset.X;
-            Offset.Y = tmpOffset.Y;
-
-        }
-        private void HandleMouseUp(object? sender, MouseEventArgs e)
+        private void HandleMiddleMouseUp(object? sender, MouseEventArgs e)
         {
             //Debug.WriteLine("Mouse button up");
             if (drag.active == true)
@@ -105,9 +78,9 @@ namespace GIS_WinForms.Data._World
 
                 // drag.active = false;
 
-                SetOffset();
-
-                drag.Reset();
+                // SetOffset();
+                Offset = Utils.Add(Offset, drag.offset);
+                drag.ResetDraggingInfo();
 
             }
         }
@@ -115,33 +88,37 @@ namespace GIS_WinForms.Data._World
         private void HandleMouseMove(object? sender, MouseEventArgs e)
         {
             //Debug.WriteLine("Mouse Move");
-            Debug.WriteLine("Offset");
-            Debug.WriteLine($"{Offset.X} : {Offset.Y}");
+            //Debug.WriteLine("Offset");
+            //Debug.WriteLine($"{Offset.X} : {Offset.Y}");
 
             // Если происходит "перетаскивание" (dragging) , то запоминаем текущюю позицию мыши
             // И созраняем результат в drag.end
             if (drag.active == true)
             {
-                drag.setEnd(getMouse(e).X, getMouse(e).Y); // Интересно, будет два вызова метода getMouse или один?
-                drag.setOffset(Utils.Substract(drag.end,drag.start).X, 
-                                Utils.Substract(drag.end, drag.start).Y); // Такой же вопрос и для этого метода
+                drag.end = this.getMouse(e);
+                drag.offset = Utils.Substract(drag.end, drag.start);
+
+                //drag.setEnd(getMouse(e).X, getMouse(e).Y); // Интересно, будет два вызова метода getMouse или один?
+                //drag.setOffset(Utils.Substract(drag.end,drag.start).X, 
+                //                Utils.Substract(drag.end, drag.start).Y); // Такой же вопрос и для этого метода
             }
         }
 
-        private void HandleMouseDown(object? sender, MouseEventArgs e)
+        private void HandleMiddleMouseDown(object? sender, MouseEventArgs e)
         {
-            Debug.WriteLine("Mouse button Down");
+           // Debug.WriteLine("Mouse button Down");
 
             // Проверяем нажата ли средняя кнопка мыши
             if (e.Button == MouseButtons.Middle)
             {
-                Debug.WriteLine("Middle Mouse button Down");
+                //Debug.WriteLine("Middle Mouse button Down");
 
-                Vertices MouseScaleCoord =new Vertices();
-                MouseScaleCoord=getMouse(e);
-                drag.setStart(MouseScaleCoord.X,
-                              MouseScaleCoord.Y);
+                //Vertices MouseScaleCoord =new Vertices();
+                //MouseScaleCoord=getMouse(e);
+                //drag.setStart(MouseScaleCoord.X,
+                //              MouseScaleCoord.Y);
 
+                drag.start = this.getMouse(e);
                 drag.active = true;
             }
         }
@@ -157,20 +134,31 @@ namespace GIS_WinForms.Data._World
 
         public Vertices getOffset()
         {
+            return Utils.Add(Offset, drag.offset);
             //Vertices tmp=new Vertices();
             //tmp = Utils.Add(Offset, drag.offset);
-            return new Vertices(Utils.Add(Offset, drag.offset).X, 
-                                Utils.Add(Offset, drag.offset).Y);
+            //return new Vertices(Utils.Add(Offset, drag.offset).X, 
+            //                    Utils.Add(Offset, drag.offset).Y);
         }
 
 
-        // Перевод положения курсоры мыши , 
-        public Vertices getMouse(MouseEventArgs evt)
+        // Перевод положения курсоры мыши 
+        public Vertices getMouse(MouseEventArgs evt, bool SubtractDragOffset = false)
         {
+            var tmpVert = new Vertices((Int32)((evt.X - Center.X) * zoom - Offset.X), (Int32)((evt.Y - Center.Y) * zoom - Offset.Y));
+
+            if (SubtractDragOffset == true) // Если перетаскивание включено, то делаем еще вычитание
+            {
+                return Utils.Substract(tmpVert, drag.offset);
+            }
+
+            return tmpVert;
+
+
             //return new Vertices(Convert.ToInt32((evt.X - Center.X) * zoom) - Offset.X,
             //                    Convert.ToInt32((evt.Y - Center.Y) * zoom) - Offset.Y);
 
-            return new Vertices((Int32)(evt.X * zoom), (Int32)(evt.Y * zoom));
+            //return new Vertices((Int32)((evt.X - Center.X) * zoom - Offset.X), (Int32)((evt.Y - Center.Y) * zoom - Offset.Y));
         }
     }
 }

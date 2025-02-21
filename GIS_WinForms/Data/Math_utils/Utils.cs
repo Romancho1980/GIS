@@ -29,15 +29,15 @@ namespace GIS_WinForms.Data.Math_utils
         }
 
         // Вычитание векторов
-        public static Vertices Substract(Vertices end, Vertices start)
+        public static Vertices Substract(Vertices p1, Vertices p2)
         {
-            return new Vertices(end.X - start.X, end.Y - start.Y);
+            return new Vertices(p1.X - p2.X, p1.Y - p2.Y);
         }
 
         // Сложение векторов
-        public static Vertices Add(Vertices end, Vertices start)
+        public static Vertices Add(Vertices p1, Vertices p2)
         {
-            return new Vertices(end.X + start.X, end.Y + start.Y);
+            return new Vertices(p1.X + p2.X, p1.Y + p2.Y);
         }
 
         // Расстояние между двумя точками, в данном методе извлекаю квадратный корень
@@ -61,7 +61,8 @@ namespace GIS_WinForms.Data.Math_utils
 
         public static Vertices Scale(Vertices p, float scaler)
         {
-            return new Vertices(Convert.ToInt32(p.X * scaler), Convert.ToInt32(p.Y * scaler));
+            // return new Vertices(Convert.ToInt32(p.X * scaler), Convert.ToInt32(p.Y * scaler));
+            return new Vertices((Int32)(p.X * scaler), (Int32)(p.Y * scaler));
         }
     }
 }

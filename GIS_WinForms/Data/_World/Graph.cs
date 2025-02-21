@@ -168,7 +168,7 @@ namespace GIS_WinForms.Data._World
             // throw new NotImplementedException();
             foreach (var vert in vertices)
             {
-                if (isPointInViewport(vert) == true)
+               // if (isPointInViewport(vert) == true)
                     vert.Draw(e, 20, "Black",outline);
             }
         }
