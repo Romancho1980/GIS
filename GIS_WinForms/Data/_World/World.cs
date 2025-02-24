@@ -117,8 +117,8 @@ namespace GIS_WinForms.Data._World
 
         private bool isPointInViewport(Vertices vert)
         {
-            if ((vert.X >= Xmin) & (vert.X <= Xmax))
-                if ((vert.Y >= Ymin) & (vert.Y <= Ymax))
+            if ((vert.point.X >= Xmin) & (vert.point.X <= Xmax))
+                if ((vert.point.Y >= Ymin) & (vert.point.Y <= Ymax))
                     return true;
 
             return false;
@@ -161,7 +161,7 @@ namespace GIS_WinForms.Data._World
             if (world_vertices!= null)
                 foreach(var vertices in world_vertices)
                 {
-                    if ((vertices.X == vert.X) && (vertices.Y == vert.Y)) return true;
+                    if ((vertices.point.X == vert.point.X) && (vertices.point.Y == vert.point.Y)) return true;
                 }
 
             return false;
@@ -201,11 +201,11 @@ namespace GIS_WinForms.Data._World
             if (world_segments != null)
                 foreach (var seg in world_segments)
                 {
-                    if (((seg.P1.X == segment.P1.X) && (seg.P1.Y == segment.P1.Y) &&
-                        (seg.P2.X == segment.P2.X) && (seg.P2.Y == segment.P2.Y)) ||
+                    if (((seg.P1.point.X == segment.P1.point.X) && (seg.P1.point.Y == segment.P1.point.Y) &&
+                        (seg.P2.point.X == segment.P2.point.X) && (seg.P2.point.Y == segment.P2.point.Y)) ||
 
-                            ((seg.P1.X == segment.P2.X) && (seg.P1.Y == segment.P2.Y) &&
-                            (seg.P2.X == segment.P1.X) && (seg.P2.Y == segment.P1.Y)))
+                            ((seg.P1.point.X == segment.P2.point.X) && (seg.P1.point.Y == segment.P2.point.Y) &&
+                            (seg.P2.point.X == segment.P1.point.X) && (seg.P2.point.Y == segment.P1.point.Y)))
                     {
                         return true;
                     }

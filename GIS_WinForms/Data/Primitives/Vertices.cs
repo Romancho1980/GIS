@@ -9,38 +9,35 @@ namespace GIS_WinForms.Data.Primitives
     public class Vertices
     {
 
-        public int X { get; set; }
-        public int Y { get; set; }
+       public Point point;
 
         public Vertices()
         {
-            X = 0;
-            Y = 0;
+            point = new Point(0,0);
         }
 
         public Vertices(int x, int y)
         {
-            X = x;
-            Y = y;
+            point = new Point(x,y);
         }
 
         public void getValue(Vertices? data)
         {
             if (data != null)
             {
-                this.X = data.X; 
-                this.Y = data.Y;
+                point.X = data.point.X;
+                point.Y = data.point.Y;
             }
         }
 
         public bool Equals(Vertices vert)
         {
-            if (vert.X == X && vert.Y == Y) return true;
+            if (vert.point.X == point.X && vert.point.Y == point.Y) return true;
             return false;
         }
         public override string ToString()
         {
-            return $"{X} : {Y}";
+            return $"{point.X} : {point.Y}";
         }
         public void Draw(PaintEventArgs e, int size = 15, string color = "Black", bool outline = false)
         {
@@ -70,11 +67,11 @@ namespace GIS_WinForms.Data.Primitives
             //          startAngle, sweepAngle);
 
             //e.Graphics.DrawArc(blackPen, X - centerX, Y - centerY, radius, radius, 0, 360);
-            e.Graphics.FillEllipse(brush, X - centerX, Y - centerY, radius, radius);
+            e.Graphics.FillEllipse(brush, point.X - centerX, point.Y - centerY, radius, radius);
             if (outline == true)
             {
                 Pen pen = new Pen(Color.RebeccaPurple, 2);
-                Rectangle rect = new Rectangle(X - centerX, Y - centerY, size, size);
+                Rectangle rect = new Rectangle(point.X - centerX, point.Y - centerY, size, size);
 
                 e.Graphics.DrawEllipse(pen, rect);
             }

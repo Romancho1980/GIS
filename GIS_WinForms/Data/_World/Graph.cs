@@ -18,7 +18,8 @@ namespace GIS_WinForms.Data._World
         public List<Vertices> viewport_points;
 
         public List<Segment> segments;
-        public List<Vertices> vertices;
+        //public List<Vertices> vertices;
+        public List<Vertices> points;
         private Cohen_Sutherland _cohen_Sutherland;
 
 
@@ -30,8 +31,8 @@ namespace GIS_WinForms.Data._World
         {
             if (vert != null)
             {
-                vertices = new List<Vertices>();
-                vertices = vert;
+                points = new List<Vertices>();
+                points = vert;
             }
             if (seg != null)
             {
@@ -56,10 +57,10 @@ namespace GIS_WinForms.Data._World
             //world_segments.Add(new Segment(100,600,380,30));
 
 
-            segments.Add(new Segment(vertices[0], vertices[1]));
-            segments.Add(new Segment(vertices[0], vertices[2]));
-            segments.Add(new Segment(vertices[0], vertices[3]));
-            segments.Add(new Segment(vertices[1], vertices[2]));
+            segments.Add(new Segment(points[0], points[1]));
+            segments.Add(new Segment(points[0], points[2]));
+            segments.Add(new Segment(points[0], points[3]));
+            segments.Add(new Segment(points[1], points[2]));
 
         }
         private void fill_world_vertices()
@@ -68,10 +69,10 @@ namespace GIS_WinForms.Data._World
             //world_vertices.Add(new Vertices(850, 600));
             //world_vertices.Add(new Vertices(100, 600));
 
-            vertices.Add(new Vertices(200, 200));
-            vertices.Add(new Vertices(500, 200));
-            vertices.Add(new Vertices(400, 400));
-            vertices.Add(new Vertices(100, 300));
+            points.Add(new Vertices(200, 200));
+            points.Add(new Vertices(500, 200));
+            points.Add(new Vertices(400, 400));
+            points.Add(new Vertices(100, 300));
         }
 
         private void InitCohen_SutherlandAlgor()
@@ -93,7 +94,7 @@ namespace GIS_WinForms.Data._World
         {
             viewport_points = new List<Vertices>();
             segments = new List<Segment>();
-            vertices = new List<Vertices>();
+            points = new List<Vertices>();
 
             _cohen_Sutherland = new Cohen_Sutherland();
 
@@ -113,7 +114,7 @@ namespace GIS_WinForms.Data._World
 
             viewport_points = new List<Vertices>();
             segments = new List<Segment>();
-            vertices = new List<Vertices>();
+            points = new List<Vertices>();
 
             _cohen_Sutherland = new Cohen_Sutherland();
 
@@ -151,8 +152,8 @@ namespace GIS_WinForms.Data._World
         private bool isPointInViewport(Vertices vert)
         {
             // Использую масштабированные координаты Viewport'а
-            if ((vert.X >= Xmin) & (vert.X <= XmaxScaled)) 
-                if ((vert.Y >= Ymin) & (vert.Y <= YmaxScaled))
+            if ((vert.point.X >= Xmin) & (vert.point.X <= XmaxScaled)) 
+                if ((vert.point.Y >= Ymin) & (vert.point.Y <= YmaxScaled))
                     return true;
 
             //if ((vert.X >= Xmin) & (vert.X <= Xmax))
@@ -166,7 +167,7 @@ namespace GIS_WinForms.Data._World
         private void Draw_Vertices(PaintEventArgs e,bool outline=false)
         {
             // throw new NotImplementedException();
-            foreach (var vert in vertices)
+            foreach (var vert in points)
             {
                // if (isPointInViewport(vert) == true)
                     vert.Draw(e, 20, "Black",outline);
@@ -191,7 +192,7 @@ namespace GIS_WinForms.Data._World
         internal void AddPoint(Vertices vert)
         {
            // Vertices newVertices = new Vertices(vert.X,vert.Y);
-            vertices.Add(vert);
+            points.Add(vert);
             //vertices.Add(new Vertices(vert.X,vert.Y));
             //world_vertices.Add(new Vertices(vert.X, vert.Y));
         }
@@ -203,10 +204,10 @@ namespace GIS_WinForms.Data._World
 
             //return false;
 
-            if (vertices != null)
-                foreach (var local_vert in vertices)
+            if (points != null)
+                foreach (var local_vert in points)
                 {
-                    if ((local_vert.X == vert.X) && (local_vert.Y == vert.Y)) return true;
+                    if ((local_vert.point.X == vert.point.X) && (local_vert.point.Y == vert.point.Y)) return true;
                 }
 
             return false;
@@ -214,7 +215,7 @@ namespace GIS_WinForms.Data._World
 
         internal bool TryAddPoint(Vertices vert)
         {
-            Debug.WriteLine($" Количество точек : {vertices.Count}");
+            Debug.WriteLine($" Количество точек : {points.Count}");
 
             if (ContainsPoint(vert) == false) // если точки нет в List , то
             {
@@ -247,11 +248,11 @@ namespace GIS_WinForms.Data._World
             if (segments != null)
                 foreach (var local_seg in segments)
                 {
-                    if (((local_seg.P1.X == seg.P1.X) && (local_seg.P1.Y == seg.P1.Y) &&
-                        (local_seg.P2.X == seg.P2.X) && (local_seg.P2.Y == seg.P2.Y)) ||
+                    if (((local_seg.P1.point.X == seg.P1.point.X) && (local_seg.P1.point.Y == seg.P1.point.Y) &&
+                        (local_seg.P2.point.X == seg.P2.point.X) && (local_seg.P2.point.Y == seg.P2.point.Y)) ||
 
-                            ((local_seg.P1.X == seg.P2.X) && (local_seg.P1.Y == seg.P2.Y) &&
-                            (local_seg.P2.X == seg.P1.X) && (local_seg.P2.Y == seg.P1.Y)))
+                            ((local_seg.P1.point.X == seg.P2.point.X) && (local_seg.P1.point.Y == seg.P2.point.Y) &&
+                            (local_seg.P2.point.X == seg.P1.point.X) && (local_seg.P2.point.Y == seg.P1.point.Y)))
                     {
                         return true;
                     }
@@ -270,7 +271,7 @@ namespace GIS_WinForms.Data._World
         // Удаляем вершину графа
         internal void RemoveVectices(Vertices vert)
         {
-            vertices.Remove(vert);
+            points.Remove(vert);
             // + Удалить нужно Сегменты, которые содержат эту вершину
             List<Segment> seg = new List<Segment>();
             seg = getSegmentsWithPoint(vert); // Можно отрефакторить и не возвращать список, а удалить "в методе". :)

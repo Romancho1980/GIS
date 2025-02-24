@@ -48,5 +48,15 @@ namespace GIS_WinForms
         {
             panel.ClearAll();
         }
+
+        private void DisposeGraph_Click(object sender, EventArgs e)
+        {
+            Debug.WriteLine("Dispose button clicked");
+        }
+
+        private void SaveGraph_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -42,7 +42,7 @@ namespace GIS_WinForms.Data.Primitives
         }
         public override string ToString()
         {
-            return $"от {P1.ToString()} до {P2.ToString()}";
+            return $"от {P1.point.ToString()} до {P2.point.ToString()}";
         }
         public Segment(Vertices p1, Vertices p2)//: this()
         {
@@ -109,11 +109,11 @@ namespace GIS_WinForms.Data.Primitives
 
             PointF pointF1 = P1pointF;
             PointF pointF2 = P1pointF;
-            pointF1.X = P1_Clip.X;
-            pointF1.Y = P1_Clip.Y;
+            pointF1.X = P1_Clip.point.X;
+            pointF1.Y = P1_Clip.point.Y;
 
-            pointF2.X = P2_Clip.X;
-            pointF2.Y = P2_Clip.Y;
+            pointF2.X = P2_Clip.point.X;
+            pointF2.Y = P2_Clip.point.Y;
 
             //e.Graphics.DrawLine(Pens.Black,pointF1,pointF2);
 
@@ -122,7 +122,7 @@ namespace GIS_WinForms.Data.Primitives
             // Кохена - Сазерленда
             // e.Graphics.DrawLine(pen,new PointF(P1_Clip.X,P1_Clip.Y),new PointF(P2_Clip.X,P2_Clip.Y)); 
 
-            e.Graphics.DrawLine(pen, new PointF(P1.X, P1.Y), new PointF(P2.X, P2.Y)); // P1 P2 - Не используя алгоритм К-З :)
+            e.Graphics.DrawLine(pen, new PointF(P1.point.X, P1.point.Y), new PointF(P2.point.X, P2.point.Y)); // P1 P2 - Не используя алгоритм К-З :)
            // e.Graphics.DrawLine(Pens.Black, P1pointF,P2pointF);
         }
 

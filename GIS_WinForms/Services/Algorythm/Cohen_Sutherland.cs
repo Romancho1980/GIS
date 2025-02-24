@@ -37,10 +37,10 @@ namespace GIS_WinForms.Services.Algorythm
         {
             _viewPort = Viewport;
 
-            Xmin = _viewPort[0].X;
-            Ymin = _viewPort[0].Y;
-            Xmax = _viewPort[2].X;
-            Ymax = _viewPort[2].Y;
+            Xmin = _viewPort[0].point.X;
+            Ymin = _viewPort[0].point.Y;
+            Xmax = _viewPort[2].point.X;
+            Ymax = _viewPort[2].point.Y;
         }
 
         public Cohen_Sutherland(List<Vertices> viewPort)
@@ -48,10 +48,10 @@ namespace GIS_WinForms.Services.Algorythm
             _line = new List<Segment>();
             _viewPort = viewPort;
 
-            Xmin = _viewPort[0].X;
-            Ymin = _viewPort[0].Y;
-            Xmax = _viewPort[2].X;
-            Ymax = _viewPort[2].Y;
+            Xmin = _viewPort[0].point.X;
+            Ymin = _viewPort[0].point.Y;
+            Xmax = _viewPort[2].point.X;
+            Ymax = _viewPort[2].point.Y;
         }
         public Cohen_Sutherland(List<Segment> line, List<Vertices> viewPort)
         {
@@ -59,10 +59,10 @@ namespace GIS_WinForms.Services.Algorythm
             _viewPort = viewPort;
 
 
-            Xmin = _viewPort[0].X;
-            Ymin = _viewPort[0].Y;
-            Xmax = _viewPort[2].X;
-            Ymax = _viewPort[2].Y;
+            Xmin = _viewPort[0].point.X;
+            Ymin = _viewPort[0].point.Y;
+            Xmax = _viewPort[2].point.X;
+            Ymax = _viewPort[2].point.Y;
         }
 
         //public List<Point2D> ClipLine()
@@ -82,22 +82,22 @@ namespace GIS_WinForms.Services.Algorythm
         }
 
 
-        public int ComputeCode(Vertices point)
+        public int ComputeCode(Vertices pt)
         {
 
 
             int ResultNumber = 0;
 
-            if (point.X < Xmin)
+            if (pt.point.X < Xmin)
                 ResultNumber = LEFT_OF_VIEWPORT;
             else
-                if (point.X > Xmax)
+                if (pt.point.X > Xmax)
                 ResultNumber = RIGHT_OF_VIEWPORT;
 
-            if (point.Y < Ymin)
+            if (pt.point.Y < Ymin)
                 ResultNumber = ResultNumber | BELOW_OF_VIEWPORT;
             else
-                if (point.Y > Ymax)
+                if (pt.point.Y > Ymax)
                 ResultNumber = ResultNumber | ABOVE_OF_VIEWPORT;
 
             return ResultNumber;
@@ -131,29 +131,29 @@ namespace GIS_WinForms.Services.Algorythm
 
                     if ((codeOut & ABOVE_OF_VIEWPORT) != 0)
                     {
-                        x = line.P1.X + (line.P2.X - line.P1.X) * (Ymax - line.P1.Y) / (line.P2.Y - line.P1.Y);
+                        x = line.P1.point.X + (line.P2.point.X - line.P1.point.X) * (Ymax - line.P1.point.Y) / (line.P2.point.Y - line.P1.point.Y);
                         y = Ymax;
                     }
                     else if ((codeOut & BELOW_OF_VIEWPORT) != 0)
                     {
-                        x = line.P1.X + (line.P2.X - line.P1.X) * (Ymin - line.P1.Y) / (line.P2.Y - line.P1.Y);
+                        x = line.P1.point.X + (line.P2.point.X - line.P1.point.X) * (Ymin - line.P1.point.Y) / (line.P2.point.Y - line.P1.point.Y);
                         y = Ymin;
                     }
                     else if ((codeOut & RIGHT_OF_VIEWPORT) != 0)
                     {
-                        y = line.P1.Y + (line.P2.Y - line.P1.Y) * (Xmax - line.P1.X) / (line.P2.X - line.P1.X);
+                        y = line.P1.point.Y + (line.P2.point.Y - line.P1.point.Y) * (Xmax - line.P1.point.X) / (line.P2.point.X - line.P1.point.X);
                         x = Xmax;
                     }
                     else if ((codeOut & LEFT_OF_VIEWPORT) != 0)
                     {
-                        y = line.P1.Y + (line.P2.Y - line.P1.Y) * (Xmin - line.P1.X) / (line.P2.X - line.P1.X);
+                        y = line.P1.point.Y + (line.P2.point.Y - line.P1.point.Y) * (Xmin - line.P1.point.X) / (line.P2.point.X - line.P1.point.X);
                         x = Xmin;
                     }
 
                     if (codeOut == Code_P1)
                     {
-                        line.P1_Clip.X = x;
-                        line.P1_Clip.Y = y;
+                        line.P1_Clip.point.X = x;
+                        line.P1_Clip.point.Y = y;
 
                         //line.P1.X = x;
                         //line.P1.Y = y;
@@ -162,8 +162,8 @@ namespace GIS_WinForms.Services.Algorythm
                     }
                     else
                     {
-                        line.P2_Clip.X = x;
-                        line.P2_Clip.Y = y;
+                        line.P2_Clip.point.X = x;
+                        line.P2_Clip.point.Y = y;
 
                         //line.P2.X = x;
                         //line.P2.Y = y;
@@ -208,11 +208,11 @@ namespace GIS_WinForms.Services.Algorythm
                 newP2 = new Vertices();
 
                 //newP1=line.P1;
-                newP1.X = line.P1.X;
-                newP1.Y = line.P1.Y;
+                newP1.point.X = line.P1.point.X;
+                newP1.point.Y = line.P1.point.Y;
 
-                newP2.X = line.P2.X;
-                newP2.Y = line.P2.Y;
+                newP2.point.X = line.P2.point.X;
+                newP2.point.Y = line.P2.point.Y;
 
                 // Определяем координаты пересечения прямой - line и Viewport'а
 
@@ -228,8 +228,8 @@ namespace GIS_WinForms.Services.Algorythm
                     {
                         code = codeA;
 
-                        C.X = line.P1.X;
-                        C.Y = line.P1.Y;
+                        C.point.X = line.P1.point.X;
+                        C.point.Y = line.P1.point.Y;
                         //C = line.P1;
                     }
                     else
@@ -240,8 +240,8 @@ namespace GIS_WinForms.Services.Algorythm
 
                     if (code == LEFT_OF_VIEWPORT)
                     {
-                        C.Y += (newP1.Y - newP2.Y) * (Xmin - C.X) / (newP1.X - newP2.X);
-                        C.X = Xmin;
+                        C.point.Y += (newP1.point.Y - newP2.point.Y) * (Xmin - C.point.X) / (newP1.point.X - newP2.point.X);
+                        C.point.X = Xmin;
                     }
                     else
                     if (code == RIGHT_OF_VIEWPORT)
@@ -257,8 +257,8 @@ namespace GIS_WinForms.Services.Algorythm
                     if (code == BELOW_OF_VIEWPORT)
                     {
                         // точка расположена ниже viewport'a
-                        C.X += (newP1.X - newP2.X) * (Ymin - C.Y) / (newP1.Y - newP2.Y);
-                        C.Y = Ymin;
+                        C.point.X += (newP1.point.X - newP2.point.X) * (Ymin - C.point.Y) / (newP1.point.Y - newP2.point.Y);
+                        C.point.Y = Ymin;
                     }
 
                     if (code == codeA)

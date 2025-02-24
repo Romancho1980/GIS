@@ -31,20 +31,20 @@ namespace GIS_WinForms.Data.Math_utils
         // Вычитание векторов
         public static Vertices Substract(Vertices p1, Vertices p2)
         {
-            return new Vertices(p1.X - p2.X, p1.Y - p2.Y);
+            return new Vertices(p1.point.X - p2.point.X, p1.point.Y - p2.point.Y);
         }
 
         // Сложение векторов
         public static Vertices Add(Vertices p1, Vertices p2)
         {
-            return new Vertices(p1.X + p2.X, p1.Y + p2.Y);
+            return new Vertices(p1.point.X + p2.point.X, p1.point.Y + p2.point.Y);
         }
 
         // Расстояние между двумя точками, в данном методе извлекаю квадратный корень
         private static double distance(Vertices p1, Vertices p2)
         {
-            double dx = (p1.X - p2.X) * (p1.X - p2.X);
-            double dy = (p1.Y - p2.Y) * (p1.Y - p2.Y);
+            double dx = (p1.point.X - p2.point.X) * (p1.point.X - p2.point.X);
+            double dy = (p1.point.Y - p2.point.Y) * (p1.point.Y - p2.point.Y);
             return Math.Sqrt(dx + dy);
 
         }
@@ -54,15 +54,15 @@ namespace GIS_WinForms.Data.Math_utils
         // поэтому решил (точнее DeepSeek подсказал) не извлекать корень
         private static double distance_wo_sqrt(Vertices p1, Vertices p2)
         {
-            double dx = (p1.X - p2.X) * (p1.X - p2.X);
-            double dy = (p1.Y - p2.Y) * (p1.Y - p2.Y);
+            double dx = (p1.point.X - p2.point.X) * (p1.point.X - p2.point.X);
+            double dy = (p1.point.Y - p2.point.Y) * (p1.point.Y - p2.point.Y);
             return (dx + dy);
         }
 
         public static Vertices Scale(Vertices p, float scaler)
         {
             // return new Vertices(Convert.ToInt32(p.X * scaler), Convert.ToInt32(p.Y * scaler));
-            return new Vertices((Int32)(p.X * scaler), (Int32)(p.Y * scaler));
+            return new Vertices((Int32)(p.point.X * scaler), (Int32)(p.point.Y * scaler));
         }
     }
 }

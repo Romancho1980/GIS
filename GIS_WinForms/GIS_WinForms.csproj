@@ -13,4 +13,8 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\_World\Primitives\" />
+  </ItemGroup>
+
 </Project>

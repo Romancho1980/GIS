@@ -104,13 +104,13 @@ namespace GIS_WinForms.Data._World
 
 
             Mouse = this.viewport.getMouse(e,true);
-            hovered = Utils.getNearestPoint(Mouse, graph.vertices, 100 * (Int32)(viewport.zoom));
+            hovered = Utils.getNearestPoint(Mouse, graph.points, 100 * (Int32)(viewport.zoom));
             if (dragging == true)
             {
                 if (selected != null)
                 {
-                    selected.X = Mouse.X;
-                    selected.Y = Mouse.Y;
+                    selected.point.X = Mouse.point.X;
+                    selected.point.Y = Mouse.point.Y;
                 }
             }
             customPanel.Refresh();
@@ -126,13 +126,13 @@ namespace GIS_WinForms.Data._World
         /// <param name="e"></param>
         private void CustomPanel_MouseDown(object? sender, MouseEventArgs e)
         {
-            MouseCoord.X = Convert.ToInt32(e.X * viewport.zoom);
-            MouseCoord.Y = Convert.ToInt32(e.Y * viewport.zoom) ;
+            MouseCoord.point.X = Convert.ToInt32(e.X * viewport.zoom);
+            MouseCoord.point.Y = Convert.ToInt32(e.Y * viewport.zoom) ;
 
             MouseCoord=viewport.getMouse(e);
 
             Mouse = viewport.getMouse(e);
-            Debug.WriteLine($"Mouse coodr X{MouseCoord.X} : Y {MouseCoord.Y}");
+            Debug.WriteLine($"Mouse coodr X{MouseCoord.point.X} : Y {MouseCoord.point.Y}");
             Debug.WriteLine("Mouse Down on Panel");
 
             // if right button clicked

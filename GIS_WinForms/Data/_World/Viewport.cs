@@ -145,7 +145,8 @@ namespace GIS_WinForms.Data._World
         // Перевод положения курсоры мыши 
         public Vertices getMouse(MouseEventArgs evt, bool SubtractDragOffset = false)
         {
-            var tmpVert = new Vertices((Int32)((evt.X - Center.X) * zoom - Offset.X), (Int32)((evt.Y - Center.Y) * zoom - Offset.Y));
+            var tmpVert = new Vertices((Int32)((evt.X - Center.point.X) * zoom - Offset.point.X), 
+                                       (Int32)((evt.Y - Center.point.Y) * zoom - Offset.point.Y));
 
             if (SubtractDragOffset == true) // Если перетаскивание включено, то делаем еще вычитание
             {

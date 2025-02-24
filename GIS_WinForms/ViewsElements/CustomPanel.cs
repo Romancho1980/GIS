@@ -77,17 +77,21 @@ namespace GIS_WinForms.ViewsElements
 
             // this.Scale(SizeF(viewport.zoom));
 
-            e.Graphics.TranslateTransform(viewport.Center.X, viewport.Center.Y);
+            e.Graphics.TranslateTransform(viewport.Center.point.X, viewport.Center.point.Y);
             e.Graphics.ScaleTransform(1 / viewport.zoom, 1 / viewport.zoom);
 //            Vertices tmp_Offset = new Vertices();
 //            tmp_Offset = viewport.getOffset();
             Offset = viewport.getOffset();
-            e.Graphics.TranslateTransform(Offset.X, Offset.Y);
+            e.Graphics.TranslateTransform(Offset.point.X, Offset.point.Y);
 
 
 //            e.Graphics.TranslateTransform(viewport.drag.offset.X, viewport.drag.offset.Y);
 //            e.Graphics.TranslateTransform(tmp_Offset.X, tmp_Offset.Y);
             graphEditor.display(e);
+
+            Polygon poly = new Polygon(graph.points);
+         //   poly.Draw(e);
+
             e.Graphics.Restore(state);
             //graph.Draw(e);
             //world.Draw(e);
@@ -116,9 +120,9 @@ namespace GIS_WinForms.ViewsElements
         {
             Random rnd = new Random();
             bool Success = false;
-            double rndIndex1=rnd.NextDouble() * (graph.vertices.Count-1);
+            double rndIndex1=rnd.NextDouble() * (graph.points.Count-1);
             rnd.NextDouble();
-            double rndIndex2=rnd.NextDouble() * (graph.vertices.Count-1);
+            double rndIndex2=rnd.NextDouble() * (graph.points.Count-1);
 
             int index1 = Convert.ToInt32(rndIndex1);
             int index2 = Convert.ToInt32(rndIndex2);
@@ -133,8 +137,8 @@ namespace GIS_WinForms.ViewsElements
             if (index1>=0  && index2>=0)
             if (index1!=index2)
             {
-                Success= graph.TryAddSegment(new Segment(graph.vertices[index1],
-                                                graph.vertices[index2]));
+                Success= graph.TryAddSegment(new Segment(graph.points[index1],
+                                                graph.points[index2]));
             }
 
             Debug.WriteLine($"Success: {Success}");
@@ -165,7 +169,7 @@ namespace GIS_WinForms.ViewsElements
 
         internal void removeRandomPoint()
         {
-            if (graph.vertices.Count == 0)
+            if (graph.points.Count == 0)
             {
                 Debug.WriteLine("No any Vertices... List is empty");
                 return;
@@ -173,12 +177,12 @@ namespace GIS_WinForms.ViewsElements
 
             Random rnd = new Random();
             bool Success = false;
-            double rndIndex1 = rnd.NextDouble() * (graph.vertices.Count - 1);
+            double rndIndex1 = rnd.NextDouble() * (graph.points.Count - 1);
             int index1 = Convert.ToInt32(rndIndex1);
-            graph.RemoveVectices(graph.vertices[index1]);
+            graph.RemoveVectices(graph.points[index1]);
 
             Debug.WriteLine($"Removed Index: {index1} ");
-            Debug.WriteLine($"Num of Vertices: {graph.vertices.Count}");
+            Debug.WriteLine($"Num of Vertices: {graph.points.Count}");
             Refresh();
 
         }
@@ -188,7 +192,7 @@ namespace GIS_WinForms.ViewsElements
             //world.world_segments.Clear();
             //world.world_vertices.Clear();
             graph.segments.Clear();
-            graph.vertices.Clear();
+            graph.points.Clear();
             Refresh();
         }
     }
