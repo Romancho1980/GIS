@@ -76,7 +76,7 @@ namespace GIS_WinForms.Data.Math_utils
         public static MyPoints Translate(MyPoints loc, double angle, int offset)
         {
             return new MyPoints(loc.X + Math.Cos(angle) * offset,
-                                loc.Y + Math.Sin(angle * offset));
+                                loc.Y + Math.Sin(angle) * offset);
         }
 
         public static double Angle(MyPoints p)

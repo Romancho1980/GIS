@@ -9,9 +9,8 @@ namespace GIS_WinForms.Data.Primitives
 {
     public class Polygon
     {
+        public List<MyPoints> _points;
         Point[] _vertices;
-        List<MyPoints> _points;
-
         public Polygon()
         {
             _points = new List<MyPoints>();
@@ -23,17 +22,10 @@ namespace GIS_WinForms.Data.Primitives
             //_points=new MyPoints[myPoints.Count];
         }
 
-        private void ConvertListToPoint(List<MyPoints> myPoints)
+        public void AddPoint(MyPoints point)
         {
-            _vertices = new Point[myPoints.Count];
-            for (int i = 0; i < myPoints.Count; i++)
-            {
-                _vertices[i] = new Point(myPoints[i].X, myPoints[i].Y);
-            }
-
-
+            _points.Add(point);
         }
-
         public void DrawPolygon(PaintEventArgs e, PolyOptions? polyOptions = null)
         {
             if (polyOptions == null)
@@ -47,7 +39,7 @@ namespace GIS_WinForms.Data.Primitives
             }
             //Point[] pts = _pointsList.ToArray();
             ConvertListToPoint(_points);
-            Color fillcolor = Color.FromArgb((int)(255*0.3), 0, 0, 255);
+            Color fillcolor = Color.FromArgb((int)(255 * 0.3), 0, 0, 255);
             Color col = Color.Yellow;
 
             if (polyOptions.Stroke == "blue") col = Color.Blue;
@@ -60,6 +52,17 @@ namespace GIS_WinForms.Data.Primitives
 
             // Рисуем контур
             e.Graphics.DrawPolygon(pen, _vertices);
+        }
+
+        private void ConvertListToPoint(List<MyPoints> myPoints)
+        {
+            _vertices = new Point[myPoints.Count];
+            for (int i = 0; i < myPoints.Count; i++)
+            {
+                _vertices[i] = new Point(myPoints[i].X, myPoints[i].Y);
+            }
+
+
         }
     }
 }

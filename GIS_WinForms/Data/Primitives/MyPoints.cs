@@ -23,7 +23,7 @@ namespace GIS_WinForms.Data.Primitives
             Y = p1.Y;
         }
 
-        public MyPoints(int x, int y) : this()
+        public MyPoints(int x, int y) 
         {
             X = x;
             Y = y;
