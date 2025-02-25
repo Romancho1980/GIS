@@ -17,13 +17,15 @@ namespace GIS_WinForms.Data._World
         CustomPanel customPanel;
         Viewport viewport;
 
-        public Vertices? selected { get; set; }     // Выбранная вершина
-        public Vertices? hovered { get; set; }      // Курсор мыши наведён на вершину графа
+        public MyPoints? selected { get; set; }     // Выбранная вершина
+        public MyPoints? hovered { get; set; }      // Курсор мыши наведён на вершину графа
 
         bool dragging = false;                              // Перетаскиваем ?
 
-        public Vertices MouseCoord { get; set; }
-        public Vertices Mouse { get; set; }
+        public MyPoints MouseCoord { get; set; }
+        public MyPoints Mouse { get; set; }
+
+        private Vertices _vertice = new();
 
         public GraphEditor(CustomPanel panel,Viewport viewport, Graph graph, int width, int height)
         {
@@ -167,10 +169,6 @@ namespace GIS_WinForms.Data._World
             {
                 Mouse = viewport.getMouse(e);
 
-                Vertices Scaledmouse = new Vertices();
-                Scaledmouse = viewport.getMouse(e);
-                Vertices mouse = new Vertices(e.X,e.Y);
-                mouse = Scaledmouse;
               //  hovered = Math_utils.Utils.getNearestPoint(mouse, graph.vertices,20);
                 if (hovered != null) 
                     {
@@ -204,7 +202,7 @@ namespace GIS_WinForms.Data._World
                 customPanel.Refresh();
         }
 
-        private void RemoveVectices(Vertices vert)
+        private void RemoveVectices(MyPoints vert)
         {
             graph.RemoveVectices(vert); // Удалить
             hovered = null;             // Стереть инфу о выбранных и "наведённых" вершинах
@@ -223,17 +221,19 @@ namespace GIS_WinForms.Data._World
             graph.Draw(e);
             if (hovered != null)
             {
-                hovered.Draw(e, 10, "Red", false);
+                _vertice.Draw(e, hovered,10, "Red", false);
             }
             if (selected != null)
             {
-                Vertices intent = new();
+                MyPoints intent = new();
 
                 if (hovered != null)
-                    intent.getValue(hovered);
+                    //intent.getValue(hovered);
+                    intent = hovered;
                 else
-                   // intent.getValue(MouseCoord);
-                    intent.getValue(Mouse);
+                    // intent.getValue(MouseCoord);
+                    //intent.getValue(Mouse);
+                    intent = Mouse;
 
                 //Debug.WriteLine($" viewport.Center {viewport.Center.ToString()}");
                 //Debug.WriteLine($" viewport.Offset {viewport.Offset.ToString()}");
@@ -242,12 +242,12 @@ namespace GIS_WinForms.Data._World
                 //intent = Utils.Substract(intent, viewport.Center);
               //  intent.X *= (Int32) viewport.zoom;
               //  intent.Y *= (Int32) viewport.zoom;
-                Segment tmp = new Segment(selected, intent);
+                Segment tmp_Segment = new Segment(selected, intent);
                 //tmp = Utils.Substract(tmp, viewport.Center);
-                Debug.WriteLine($"{tmp.ToString()}");
-                tmp.Draw(e, 2, "black", true); // Рисуем пунктирную линию
+                Debug.WriteLine($"{tmp_Segment.ToString()}");
+                tmp_Segment.Draw(e, 2, "black", true); // Рисуем пунктирную линию
 
-                selected.Draw(e,16,"Red",true);
+                _vertice.Draw(e,selected,16,"Red",true);
             }
         }
     }

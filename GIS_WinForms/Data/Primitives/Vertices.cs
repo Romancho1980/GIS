@@ -42,7 +42,7 @@ namespace GIS_WinForms.Data.Primitives
         {
             return $"{X} : {Y}";
         }
-        public void Draw(PaintEventArgs e, int size = 15, string color = "Black", bool outline = false)
+        public void Draw(PaintEventArgs e, MyPoints point, int size = 15, string color = "Black", bool outline = false)
         {
             int radius = size ;
             int centerX = radius / 2;
@@ -70,11 +70,11 @@ namespace GIS_WinForms.Data.Primitives
             //          startAngle, sweepAngle);
 
             //e.Graphics.DrawArc(blackPen, X - centerX, Y - centerY, radius, radius, 0, 360);
-            e.Graphics.FillEllipse(brush, X - centerX, Y - centerY, radius, radius);
+            e.Graphics.FillEllipse(brush, point.X - centerX, point.Y - centerY, radius, radius);
             if (outline == true)
             {
                 Pen pen = new Pen(Color.RebeccaPurple, 2);
-                Rectangle rect = new Rectangle(X - centerX, Y - centerY, size, size);
+                Rectangle rect = new Rectangle(point.X - centerX, point.Y - centerY, size, size);
 
                 e.Graphics.DrawEllipse(pen, rect);
             }

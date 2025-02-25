@@ -13,24 +13,24 @@ namespace GIS_WinForms.Data._World
 {
     public struct Drag
     {
-        public Vertices start;  // Координаты начала "перетаскивания", т.е. когда надата средняя кнопка мыши
-        public Vertices end;    // Координаты конца перетаскивания, т.е. когда отпущена средняя кнопка мыши
-        public Vertices offset; // Вычисляем вектор перемещения, т.е. dX и dY
+        public MyPoints start;  // Координаты начала "перетаскивания", т.е. когда надата средняя кнопка мыши
+        public MyPoints end;    // Координаты конца перетаскивания, т.е. когда отпущена средняя кнопка мыши
+        public MyPoints offset; // Вычисляем вектор перемещения, т.е. dX и dY
         public bool active;     // Бит - нажата ли средняя кнопка мыши, т.е. происходит ли сейчас перетаскивание
 
         public Drag()
         {
-            start = new Vertices(0, 0);
-            end = new Vertices(0, 0);
-            offset = new Vertices(0, 0);
+            start = new MyPoints(0, 0);
+            end = new MyPoints(0, 0);
+            offset = new MyPoints(0, 0);
             active = false;
         }
 
         public void ResetDraggingInfo()
         {
-            start = new Vertices(0, 0);
-            end = new Vertices(0, 0);
-            offset = new Vertices(0, 0);
+            start = new MyPoints(0, 0);
+            end = new MyPoints(0, 0);
+            offset = new MyPoints(0, 0);
             active = false;
         }
 
@@ -39,10 +39,10 @@ namespace GIS_WinForms.Data._World
     {
 
         private Drag drag; // Информация о начале перетаскивания, т.е. начальная точка (когда нажата средняя кнопка) и конец - когда отпустили кнопку
-        public Vertices Offset { get; set; } // Смещение верхнего левого угла Viewport относительно начала координат, т.е тоже верхнего левого угла
+        public MyPoints Offset { get; set; } // Смещение верхнего левого угла Viewport относительно начала координат, т.е тоже верхнего левого угла
         public CustomPanel panel { get; set; }
         public float zoom { get; set; }//Масштаб
-        public Vertices Center { get; set; }
+        public MyPoints Center { get; set; }
 
         public Viewport(CustomPanel panel)
         {
@@ -132,7 +132,7 @@ namespace GIS_WinForms.Data._World
             panel.Refresh();
         }
 
-        public Vertices getOffset()
+        public MyPoints getOffset()
         {
             return Utils.Add(Offset, drag.offset);
             //Vertices tmp=new Vertices();
@@ -143,9 +143,9 @@ namespace GIS_WinForms.Data._World
 
 
         // Перевод положения курсоры мыши 
-        public Vertices getMouse(MouseEventArgs evt, bool SubtractDragOffset = false)
+        public MyPoints getMouse(MouseEventArgs evt, bool SubtractDragOffset = false)
         {
-            var tmpVert = new Vertices((Int32)((evt.X - Center.X) * zoom - Offset.X), (Int32)((evt.Y - Center.Y) * zoom - Offset.Y));
+            var tmpVert = new MyPoints((Int32)((evt.X - Center.X) * zoom - Offset.X), (Int32)((evt.Y - Center.Y) * zoom - Offset.Y));
 
             if (SubtractDragOffset == true) // Если перетаскивание включено, то делаем еще вычитание
             {

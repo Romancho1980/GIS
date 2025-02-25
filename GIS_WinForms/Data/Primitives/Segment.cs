@@ -10,18 +10,18 @@ namespace GIS_WinForms.Data.Primitives
 {
     public class Segment
     {
-        public Vertices P1 { get; set; }
-        public Vertices P2 { get; set; }
+        public MyPoints P1;
+        public MyPoints P2;
 
 
         /// P1_Clip и P2_Clip 
         /// Отрезок, который получен после алгоритма Cohen_Sutherland
         /// То есть- это точки, где отрезок пересекает Viewport
-        public Vertices P1_Clip { get; set; } 
-        public Vertices P2_Clip { get; set; }  
+        public MyPoints P1_Clip;
+        public MyPoints P2_Clip;
 
-        public PointF P1pointF {  get; set; }
-        public PointF P2pointF {  get; set; }
+        public PointF P1pointF;
+        public PointF P2pointF;
 
         // Пересекает ли отрезок Viewport ?
         public bool Visible { get; set; } = true;
@@ -31,10 +31,10 @@ namespace GIS_WinForms.Data.Primitives
 
         public Segment()
         {
-            P1 = new Vertices();
-            P2 = new Vertices();
-            P1_Clip = new Vertices();
-            P2_Clip = new Vertices();
+            P1 = new MyPoints();
+            P2 = new MyPoints();
+            P1_Clip = new MyPoints();
+            P2_Clip = new MyPoints();
 
             P1pointF= new PointF(); 
             P2pointF= new PointF(); 
@@ -44,7 +44,7 @@ namespace GIS_WinForms.Data.Primitives
         {
             return $"от {P1.ToString()} до {P2.ToString()}";
         }
-        public Segment(Vertices p1, Vertices p2)//: this()
+        public Segment(MyPoints p1, MyPoints p2)//: this()
         {
 
             //P1.X= p1.X;
@@ -81,11 +81,11 @@ namespace GIS_WinForms.Data.Primitives
 
         public Segment(int x1, int y1, int x2, int y2)// : this()
         {
-            P1=new Vertices(x1,y1);
-            P2=new Vertices(x2,y2);
+            P1=new MyPoints(x1,y1);
+            P2=new MyPoints(x2,y2);
 
-            P1_Clip= new Vertices(x1,y1);
-            P2_Clip = new Vertices(x2, y2);
+            P1_Clip= new MyPoints(x1,y1);
+            P2_Clip = new MyPoints(x2, y2);
 
             P1pointF = new PointF(x1, y1);
             P2pointF = new PointF(x2, y2);
@@ -143,7 +143,7 @@ namespace GIS_WinForms.Data.Primitives
             return false;
         }
 
-        public bool IncludesPoint(Vertices vert)
+        public bool IncludesPoint(MyPoints vert)
         {
             if ((this.P1.Equals(vert) == true)||(this.P2.Equals(vert) == true)) return true;
             return false;

@@ -6,19 +6,27 @@ namespace GIS_WinForms.Data._World
 {
     public class Graph
     {
+        // Координаты ViewPort'а
         public int Xmin { get; set; } = 350;
         public int Ymin { get; set; } = 150;
         public int Xmax { get; set; } = 1500;
         public int Ymax { get; set; } = 750;
 
-
+        // Не знаю что такое
         public int XmaxScaled { get; set; }
         public int YmaxScaled { get; set; }
 
-        public List<Vertices> viewport_points;
+        public List<MyPoints> viewport_points;
 
+        // Ребра графа
         public List<Segment> segments;
-        public List<Vertices> vertices;
+
+        // Вершины графа
+        //public List<Vertices> vertices;
+        public List<MyPoints> vertices;
+        private Vertices _vert;
+
+
         private Cohen_Sutherland _cohen_Sutherland;
 
 
@@ -26,11 +34,12 @@ namespace GIS_WinForms.Data._World
         {
             _cohen_Sutherland.ChangeViewportSize(Xmax, Ymax);
         }
-        public Graph(List<Vertices> vert, List<Segment> seg)
+        public Graph(List<MyPoints> vert, List<Segment> seg)
         {
+            _vert = new Vertices();
             if (vert != null)
             {
-                vertices = new List<Vertices>();
+                vertices = new List<MyPoints>();
                 vertices = vert;
             }
             if (seg != null)
@@ -43,10 +52,10 @@ namespace GIS_WinForms.Data._World
 
         private void fill_viewport()
         {
-            viewport_points.Add(new Vertices(Xmin, Ymin));
-            viewport_points.Add(new Vertices(Xmax, Ymin));
-            viewport_points.Add(new Vertices(Xmax, Ymax));
-            viewport_points.Add(new Vertices(Xmin, Ymax));
+            viewport_points.Add(new MyPoints(Xmin, Ymin));
+            viewport_points.Add(new MyPoints(Xmax, Ymin));
+            viewport_points.Add(new MyPoints(Xmax, Ymax));
+            viewport_points.Add(new MyPoints(Xmin, Ymax));
         }
 
         private void fill_world_segments()
@@ -56,10 +65,14 @@ namespace GIS_WinForms.Data._World
             //world_segments.Add(new Segment(100,600,380,30));
 
 
+            //segments.Add(new Segment(vertices[0], vertices[1]));
+            //segments.Add(new Segment(vertices[0], vertices[2]));
+            //segments.Add(new Segment(vertices[0], vertices[3]));
+            //segments.Add(new Segment(vertices[1], vertices[2]));
+
             segments.Add(new Segment(vertices[0], vertices[1]));
-            segments.Add(new Segment(vertices[0], vertices[2]));
-            segments.Add(new Segment(vertices[0], vertices[3]));
             segments.Add(new Segment(vertices[1], vertices[2]));
+            segments.Add(new Segment(vertices[2], vertices[3]));
 
         }
         private void fill_world_vertices()
@@ -68,10 +81,16 @@ namespace GIS_WinForms.Data._World
             //world_vertices.Add(new Vertices(850, 600));
             //world_vertices.Add(new Vertices(100, 600));
 
-            vertices.Add(new Vertices(200, 200));
-            vertices.Add(new Vertices(500, 200));
-            vertices.Add(new Vertices(400, 400));
-            vertices.Add(new Vertices(100, 300));
+            vertices.Add(new MyPoints(200, 100));
+            vertices.Add(new MyPoints(200, 400));
+            vertices.Add(new MyPoints(350, 400));
+            vertices.Add(new MyPoints(350, 250));
+
+
+            //vertices.Add(new MyPoints(200, 200));
+            //vertices.Add(new MyPoints(500, 200));
+            //vertices.Add(new MyPoints(400, 400));
+            //vertices.Add(new MyPoints(100, 300));
         }
 
         private void InitCohen_SutherlandAlgor()
@@ -91,9 +110,10 @@ namespace GIS_WinForms.Data._World
 
         public Graph()
         {
-            viewport_points = new List<Vertices>();
+            _vert = new Vertices();
+            viewport_points = new List<MyPoints>();
             segments = new List<Segment>();
-            vertices = new List<Vertices>();
+            vertices = new List<MyPoints>();
 
             _cohen_Sutherland = new Cohen_Sutherland();
 
@@ -111,9 +131,10 @@ namespace GIS_WinForms.Data._World
             XmaxScaled = Xmax;
             YmaxScaled = Ymax;
 
-            viewport_points = new List<Vertices>();
+            _vert = new Vertices();
+            viewport_points = new List<MyPoints>();
             segments = new List<Segment>();
-            vertices = new List<Vertices>();
+            vertices = new List<MyPoints>();
 
             _cohen_Sutherland = new Cohen_Sutherland();
 
@@ -168,8 +189,8 @@ namespace GIS_WinForms.Data._World
             // throw new NotImplementedException();
             foreach (var vert in vertices)
             {
-               // if (isPointInViewport(vert) == true)
-                    vert.Draw(e, 20, "Black",outline);
+                // if (isPointInViewport(vert) == true)
+                _vert.Draw(e,vert, 20, "Black",outline);
             }
         }
 
@@ -188,7 +209,7 @@ namespace GIS_WinForms.Data._World
 
         }
 
-        internal void AddPoint(Vertices vert)
+        internal void AddPoint(MyPoints vert)
         {
            // Vertices newVertices = new Vertices(vert.X,vert.Y);
             vertices.Add(vert);
@@ -197,7 +218,7 @@ namespace GIS_WinForms.Data._World
         }
 
 
-        private bool ContainsPoint(Vertices vert)
+        private bool ContainsPoint(MyPoints vert)
         {
             //if (world_vertices.Contains(vert) == true) return true;
 
@@ -212,7 +233,7 @@ namespace GIS_WinForms.Data._World
             return false;
         }
 
-        internal bool TryAddPoint(Vertices vert)
+        internal bool TryAddPoint(MyPoints vert)
         {
             Debug.WriteLine($" Количество точек : {vertices.Count}");
 
@@ -268,7 +289,7 @@ namespace GIS_WinForms.Data._World
         }
 
         // Удаляем вершину графа
-        internal void RemoveVectices(Vertices vert)
+        internal void RemoveVectices(MyPoints vert)
         {
             vertices.Remove(vert);
             // + Удалить нужно Сегменты, которые содержат эту вершину
@@ -281,7 +302,7 @@ namespace GIS_WinForms.Data._World
         }
 
         // Получить сегменты, в которых есть удаляемая точка
-        private List<Segment> getSegmentsWithPoint(Vertices vert)
+        private List<Segment> getSegmentsWithPoint(MyPoints vert)
         {
             List<Segment> tmp = new List<Segment>();
             foreach (var seg in segments)

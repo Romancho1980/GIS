@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tmp_For_Testing", "Tmp_For_
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinForm_ForTests", "WinForm_ForTests\WinForm_ForTests.csproj", "{4024EF84-13FC-43CE-851F-558689756240}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JustTesting", "JustTesting\JustTesting.csproj", "{AD9FC129-8EE3-4A3E-86FE-30704E977200}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{4024EF84-13FC-43CE-851F-558689756240}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4024EF84-13FC-43CE-851F-558689756240}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4024EF84-13FC-43CE-851F-558689756240}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD9FC129-8EE3-4A3E-86FE-30704E977200}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD9FC129-8EE3-4A3E-86FE-30704E977200}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD9FC129-8EE3-4A3E-86FE-30704E977200}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD9FC129-8EE3-4A3E-86FE-30704E977200}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -42,5 +48,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{3860BE4C-3960-4721-86ED-784B9756C49A} = {E935D34C-FDF3-4C65-95E0-6209CD888801}
 		{4024EF84-13FC-43CE-851F-558689756240} = {E935D34C-FDF3-4C65-95E0-6209CD888801}
+		{AD9FC129-8EE3-4A3E-86FE-30704E977200} = {E935D34C-FDF3-4C65-95E0-6209CD888801}
 	EndGlobalSection
 EndGlobal

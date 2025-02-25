@@ -15,11 +15,11 @@ namespace GIS_WinForms.ViewsElements
         GraphEditor graphEditor;
         Viewport viewport;
 
-        Vertices Offset {  get; set; }
+        MyPoints Offset {  get; set; }
 
         private void InitPanel()
         {
-            Offset = new Vertices();    
+            Offset = new MyPoints();    
             Dock = DockStyle.None;
             Width = 905;
             Height = 485;
@@ -85,9 +85,19 @@ namespace GIS_WinForms.ViewsElements
             e.Graphics.TranslateTransform(Offset.X, Offset.Y);
 
 
-//            e.Graphics.TranslateTransform(viewport.drag.offset.X, viewport.drag.offset.Y);
-//            e.Graphics.TranslateTransform(tmp_Offset.X, tmp_Offset.Y);
+            //            e.Graphics.TranslateTransform(viewport.drag.offset.X, viewport.drag.offset.Y);
+            //            e.Graphics.TranslateTransform(tmp_Offset.X, tmp_Offset.Y);
+
+
+            Polygon pol = new(graph.vertices);
+            pol.DrawPolygon(e);
+
+            Envelope env = new(graph.segments[0], 80);
+            env.DrawEnvelope(e);
+
             graphEditor.display(e);
+
+
             e.Graphics.Restore(state);
             //graph.Draw(e);
             //world.Draw(e);
@@ -104,7 +114,7 @@ namespace GIS_WinForms.ViewsElements
 
             //rnd1 = 0.5; // Для тестирования
             //rnd2 = 0.5;
-            bool success= graph.TryAddPoint(new Vertices(Convert.ToInt32(rnd1* graph.Xmax), 
+            bool success= graph.TryAddPoint(new MyPoints(Convert.ToInt32(rnd1* graph.Xmax), 
                                         Convert.ToInt32(rnd2* graph.Ymax)));
 
             Debug.WriteLine($" Success : {success}");

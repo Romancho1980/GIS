@@ -12,7 +12,7 @@ namespace GIS_WinForms.Services.Algorythm
         private List<Segment> _line;
 
         // Координаты Viewport'а
-        private List<Vertices> _viewPort;
+        private List<MyPoints> _viewPort;
 
         private int Xmin;
         private int Ymin;
@@ -30,10 +30,10 @@ namespace GIS_WinForms.Services.Algorythm
         public Cohen_Sutherland()
         {
             _line = new List<Segment>();
-            _viewPort= new List<Vertices>();
+            _viewPort= new List<MyPoints>();
         }
 
-        public void SetViewport(List<Vertices> Viewport)
+        public void SetViewport(List<MyPoints> Viewport)
         {
             _viewPort = Viewport;
 
@@ -43,7 +43,7 @@ namespace GIS_WinForms.Services.Algorythm
             Ymax = _viewPort[2].Y;
         }
 
-        public Cohen_Sutherland(List<Vertices> viewPort)
+        public Cohen_Sutherland(List<MyPoints> viewPort)
         {
             _line = new List<Segment>();
             _viewPort = viewPort;
@@ -53,7 +53,7 @@ namespace GIS_WinForms.Services.Algorythm
             Xmax = _viewPort[2].X;
             Ymax = _viewPort[2].Y;
         }
-        public Cohen_Sutherland(List<Segment> line, List<Vertices> viewPort)
+        public Cohen_Sutherland(List<Segment> line, List<MyPoints> viewPort)
         {
             _line = line;
             _viewPort = viewPort;
@@ -82,7 +82,7 @@ namespace GIS_WinForms.Services.Algorythm
         }
 
 
-        public int ComputeCode(Vertices point)
+        public int ComputeCode(MyPoints point)
         {
 
 
@@ -202,10 +202,10 @@ namespace GIS_WinForms.Services.Algorythm
                 int codeA = ComputeCode(line.P1);
                 int codeB = ComputeCode(line.P2);
                 int code;
-                Vertices C = new();
-                Vertices newP1, newP2;
-                newP1 = new Vertices();
-                newP2 = new Vertices();
+                MyPoints C = new();
+                MyPoints newP1, newP2;
+                newP1 = new MyPoints();
+                newP2 = new MyPoints();
 
                 //newP1=line.P1;
                 newP1.X = line.P1.X;
