@@ -1,7 +1,6 @@
 ﻿using GIS_WinForms.Data.Math_utils;
 using GIS_WinForms.Data.Primitives;
 using GIS_WinForms.ViewsElements;
-using GIS_WinForms.Data.Math_utils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

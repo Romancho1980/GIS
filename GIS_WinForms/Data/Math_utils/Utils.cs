@@ -76,12 +76,42 @@ namespace GIS_WinForms.Data.Math_utils
         public static MyPoints Translate(MyPoints loc, double angle, int offset)
         {
             return new MyPoints(loc.X + Math.Cos(angle) * offset,
-                                loc.Y + Math.Sin(angle * offset));
+                                loc.Y + Math.Sin(angle) * offset);
         }
 
         public static double Angle(MyPoints p)
         {
             return Math.Atan2(p.Y, p.X);
         }
+
+        public static double Lerp(int a, int b, double t)
+        {
+            return a + (b - a) * t;
+        }
+
+        public static (double X, double Y, double Offset)? getInterSection(MyPoints A, MyPoints B, MyPoints C, MyPoints D)
+        {
+            double tTop = (D.X - C.X) * (A.Y - C.Y) - (D.Y - C.Y) * (A.X - C.X);
+            double uTop = (C.Y - A.Y) * (A.X - B.X) - (C.X - A.X) * (A.Y - B.Y);
+            double bottom = (D.Y - C.Y) * (B.X - A.X) - (D.X - C.X) * (B.Y - A.Y);
+
+            if (bottom != 0)
+            {
+                double t = tTop / bottom;
+                double u = uTop / bottom;
+                if (t >= 0 && t <= 1 && u >= 0 && u <= 1)
+                {
+                    return (
+                        X: Lerp(A.X, B.X, t),
+                        Y: Lerp(A.Y, B.Y, t),
+                        Offset: t
+                        );
+                }
+            }
+
+            return null;
+        }
+
+        
     }
 }

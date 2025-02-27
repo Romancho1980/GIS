@@ -2,7 +2,7 @@
 using GIS_WinForms.Services.Algorythm;
 using System.Diagnostics;
 
-namespace GIS_WinForms.Data._World
+namespace GIS_WinForms.Data.Math_utils
 {
     public class Graph
     {
@@ -30,7 +30,7 @@ namespace GIS_WinForms.Data._World
         private Cohen_Sutherland _cohen_Sutherland;
 
 
-        public void ChangeViewportForCohenSutherlandAlgorythm(int Xmax,int Ymax)
+        public void ChangeViewportForCohenSutherlandAlgorythm(int Xmax, int Ymax)
         {
             _cohen_Sutherland.ChangeViewportSize(Xmax, Ymax);
         }
@@ -72,7 +72,7 @@ namespace GIS_WinForms.Data._World
 
             segments.Add(new Segment(vertices[0], vertices[1]));
             segments.Add(new Segment(vertices[1], vertices[2]));
-            segments.Add(new Segment(vertices[2], vertices[3]));
+            //segments.Add(new Segment(vertices[2], vertices[3]));
 
         }
         private void fill_world_vertices()
@@ -84,7 +84,7 @@ namespace GIS_WinForms.Data._World
             vertices.Add(new MyPoints(200, 100));
             vertices.Add(new MyPoints(200, 400));
             vertices.Add(new MyPoints(350, 400));
-            vertices.Add(new MyPoints(350, 250));
+          //  vertices.Add(new MyPoints(350, 250));
 
 
             //vertices.Add(new MyPoints(200, 200));
@@ -160,20 +160,20 @@ namespace GIS_WinForms.Data._World
 
         //}
 
-        public void Draw(PaintEventArgs e,bool outline=false)
+        public void Draw(PaintEventArgs e, bool outline = false)
         {
             if (e != null)
             {
                 Draw_Segments(e);
-                Draw_Vertices(e,outline);
+                Draw_Vertices(e, outline);
             }
         }
 
         private bool isPointInViewport(Vertices vert)
         {
             // Использую масштабированные координаты Viewport'а
-            if ((vert.X >= Xmin) & (vert.X <= XmaxScaled)) 
-                if ((vert.Y >= Ymin) & (vert.Y <= YmaxScaled))
+            if (vert.X >= Xmin & vert.X <= XmaxScaled)
+                if (vert.Y >= Ymin & vert.Y <= YmaxScaled)
                     return true;
 
             //if ((vert.X >= Xmin) & (vert.X <= Xmax))
@@ -184,13 +184,13 @@ namespace GIS_WinForms.Data._World
             return false;
         }
 
-        private void Draw_Vertices(PaintEventArgs e,bool outline=false)
+        private void Draw_Vertices(PaintEventArgs e, bool outline = false)
         {
             // throw new NotImplementedException();
             foreach (var vert in vertices)
             {
                 // if (isPointInViewport(vert) == true)
-                _vert.Draw(e,vert, 20, "Black",outline);
+                _vert.Draw(e, vert, 20, "Black", outline);
             }
         }
 
@@ -211,7 +211,7 @@ namespace GIS_WinForms.Data._World
 
         internal void AddPoint(MyPoints vert)
         {
-           // Vertices newVertices = new Vertices(vert.X,vert.Y);
+            // Vertices newVertices = new Vertices(vert.X,vert.Y);
             vertices.Add(vert);
             //vertices.Add(new Vertices(vert.X,vert.Y));
             //world_vertices.Add(new Vertices(vert.X, vert.Y));
@@ -227,7 +227,7 @@ namespace GIS_WinForms.Data._World
             if (vertices != null)
                 foreach (var local_vert in vertices)
                 {
-                    if ((local_vert.X == vert.X) && (local_vert.Y == vert.Y)) return true;
+                    if (local_vert.X == vert.X && local_vert.Y == vert.Y) return true;
                 }
 
             return false;
@@ -268,11 +268,11 @@ namespace GIS_WinForms.Data._World
             if (segments != null)
                 foreach (var local_seg in segments)
                 {
-                    if (((local_seg.P1.X == seg.P1.X) && (local_seg.P1.Y == seg.P1.Y) &&
-                        (local_seg.P2.X == seg.P2.X) && (local_seg.P2.Y == seg.P2.Y)) ||
+                    if (local_seg.P1.X == seg.P1.X && local_seg.P1.Y == seg.P1.Y &&
+                        local_seg.P2.X == seg.P2.X && local_seg.P2.Y == seg.P2.Y ||
 
-                            ((local_seg.P1.X == seg.P2.X) && (local_seg.P1.Y == seg.P2.Y) &&
-                            (local_seg.P2.X == seg.P1.X) && (local_seg.P2.Y == seg.P1.Y)))
+                            local_seg.P1.X == seg.P2.X && local_seg.P1.Y == seg.P2.Y &&
+                            local_seg.P2.X == seg.P1.X && local_seg.P2.Y == seg.P1.Y)
                     {
                         return true;
                     }

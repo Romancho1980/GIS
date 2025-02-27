@@ -10,37 +10,45 @@ namespace GIS_WinForms.Data.Primitives
     public class Envelope
     {
         private Segment _skeleton;
-        Polygon _polygon;
+        public Polygon _polygon;
 
-        public Envelope(Segment skeleton,int width)
+        public Envelope(Segment skeleton,int width,int roundness=1)
         {
             this._skeleton = skeleton;
             _polygon = new Polygon();
 
-            _polygon=GeneratePolygon(width);
+            _polygon=GeneratePolygon(width,roundness);
         }
 
-        public Polygon GeneratePolygon(int width)
+        public Polygon GeneratePolygon(int width, int roundness)
         {
-            // const {p1,p2} = this.skeleton
             MyPoints p1 = new MyPoints(_skeleton.P1);
-            MyPoints p2= new MyPoints(_skeleton.P2);
+            MyPoints p2 = new MyPoints(_skeleton.P2);
 
             int radius = width / 2;
-            //double alpha = Math.Atan2(p1.Y - p2.Y, p1.X - p2.X);
 
-            double alpha = Utils.Angle(Utils.Substract(p1, p2));
+            double alpha = Utils.Angle(Utils.Substract(p1, p2)); // Требуется ускорение вычисления Atan2. В будущем. :)
 
             double alpha_cw = alpha + Math.PI / 2;
             double alpha_ccw = alpha - Math.PI / 2;
 
-            MyPoints p1_ccw = Utils.Translate(p1, alpha_ccw, radius);
-            MyPoints p2_ccw = Utils.Translate(p2, alpha_ccw, radius);
+            double step = Math.PI / Math.Max(1, roundness);
 
-            MyPoints p1_cw = Utils.Translate(p1, alpha_cw, radius);
-            MyPoints p2_cw = Utils.Translate(p2, alpha_cw, radius);
+            double eps = step / 2;
 
-            return new Polygon([p1_ccw, p2_ccw, p2_cw, p1_cw]);
+            List < MyPoints> poly = new();
+
+            for (double i = alpha_ccw; i < alpha_cw + eps; i += step)
+            {
+                poly.Add(Utils.Translate(p1, i, radius));
+            }
+
+            for (double i = alpha_ccw; i < alpha_cw + eps; i += step)
+            {
+                poly.Add(Utils.Translate(p2, Math.PI + i, radius));
+            }
+
+            return new Polygon(poly);
         }
 
         public void DrawEnvelope(PaintEventArgs e)

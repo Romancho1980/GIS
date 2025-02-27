@@ -1,4 +1,5 @@
 ﻿using GIS_WinForms.Data._World;
+using GIS_WinForms.Data.Math_utils;
 using GIS_WinForms.Data.Primitives;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
@@ -11,6 +12,7 @@ namespace GIS_WinForms.ViewsElements
       //  World world;
 
         Graph graph;
+        World world;
 
         GraphEditor graphEditor;
         Viewport viewport;
@@ -66,6 +68,8 @@ namespace GIS_WinForms.ViewsElements
                                            //graphEditor = new GraphEditor(this,graph,this.Size.Width, this.Size.Height);
             graphEditor = new GraphEditor(this, viewport, graph, this.Size.Width, this.Size.Height);
 
+            world = new World(graph);
+
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -89,11 +93,14 @@ namespace GIS_WinForms.ViewsElements
             //            e.Graphics.TranslateTransform(tmp_Offset.X, tmp_Offset.Y);
 
 
-            Polygon pol = new(graph.vertices);
-            pol.DrawPolygon(e);
+            world.Generate();
+            world.DrawWorld(e);
 
-            Envelope env = new(graph.segments[0], 80);
-            env.DrawEnvelope(e);
+            //Polygon pol = new(graph.vertices);
+            //pol.DrawPolygon(e);
+
+           // Envelope env = new(graph.segments[0], 80);
+           // env.DrawEnvelope(e);
 
             graphEditor.display(e);
 
