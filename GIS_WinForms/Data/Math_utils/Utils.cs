@@ -40,6 +40,13 @@ namespace GIS_WinForms.Data.Math_utils
             return new MyPoints(p1.X + p2.X, p1.Y + p2.Y);
         }
 
+        // Середина отрезка
+        public static MyPoints Average(MyPoints p1, MyPoints p2)
+        {
+            return new MyPoints((p1.X + p2.X) / 2, (p1.Y + p2.Y) / 2);
+        }
+
+
         // Расстояние между двумя точками, в данном методе извлекаю квадратный корень
         private static double distance(MyPoints p1, MyPoints p2)
         {
@@ -112,6 +119,18 @@ namespace GIS_WinForms.Data.Math_utils
             return null;
         }
 
-        
+        public static string GetRandomColor()
+        {
+            // Создаём объект Random для генерации случайных чисел
+            Random random = new Random();
+
+            // Генерируем случайный hue в диапазоне от 290 до 550 (290 + 260)
+            double hue = 290 + random.NextDouble() * 260;
+
+            // Форматируем строку в формате HSL
+            return string.Format("hsl({0},100%,60%)", hue);
+        }
+
+       
     }
 }

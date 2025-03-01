@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.DirectoryServices.ActiveDirectory;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Security.Authentication.ExtendedProtection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -99,6 +100,22 @@ namespace GIS_WinForms.Data.Primitives
             //                                new PointF(P2_Clip.X,P2_Clip.Y));
 
             Pen pen = new Pen(Color.Black);
+            pen.Width = width;
+
+            if (color.Equals("random"))
+            {
+                Random rnd = new Random();
+                Color rndCol = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
+                pen.Color = rndCol;
+            }
+            else
+            if (color.Equals("white"))
+                pen.Color = Color.White;
+            else
+            if (color.Equals("black"))
+                pen.Color=Color.Black;
+
+
 
             if (dash == true)
             {

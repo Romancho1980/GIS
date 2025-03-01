@@ -1,5 +1,6 @@
 ﻿using GIS_WinForms.Data.Math_utils;
 using GIS_WinForms.Data.Primitives;
+using GIS_WinForms.Data.Primitives.AUX_Classes;
 using GIS_WinForms.Services.Algorythm;
 using Microsoft.VisualBasic.Logging;
 using System;
@@ -21,8 +22,9 @@ namespace GIS_WinForms.Data._World
         private List<MyPoints> _intersection; // Пересечения полигонов
         private Vertices _vertices;
 
+        private List<Segment> roadBorders;
 
-        public World(Graph graph, int roadWidth = 100, int roadRoundness = 3)
+        public World(Graph graph, int roadWidth = 100, int roadRoundness = 10)
         {
             _graph = graph;
             _roadWidth = roadWidth;
@@ -30,6 +32,7 @@ namespace GIS_WinForms.Data._World
             _vertices = new Vertices();
             _envelopes = new List<Envelope>();
             _intersection = new List<MyPoints>();
+            roadBorders=new List<Segment>();
 
             Generate();
 
@@ -37,15 +40,23 @@ namespace GIS_WinForms.Data._World
 
         public void DrawWorld(PaintEventArgs e)
         {
+            PolyOptions options= new PolyOptions();
             foreach (var env in _envelopes)
             {
-                env.DrawEnvelope(e);
+                int col = 200;
+                options.Fill = Color.FromArgb(255, col, col, col) ; // BBB - > fill
+                options.Stroke = "#BBB";
+                env.DrawEnvelope(e,options);
             }
 
-            foreach (var inter in _intersection)
+            foreach(var seg in roadBorders)
             {
-                _vertices.Draw(e, inter,8);
+                seg.Draw(e, 4, "white");
             }
+            //foreach (var inter in _intersection)
+            //{
+            //    _vertices.Draw(e, inter,8);
+            //}
         }
 
         public void Generate()
@@ -65,8 +76,12 @@ namespace GIS_WinForms.Data._World
             //_intersection = Polygon.breakPolygon(_envelopes[0]._polygon,
             //                                     _envelopes[1]._polygon);
 
-            _intersection = Polygon.breakPolygon(_envelopes[0]._polygon,
-                                                 _envelopes[1]._polygon);
+            //_intersection = Polygon.breakPolygon(_envelopes[0]._polygon,
+            //                                     _envelopes[1]._polygon);
+
+
+            // Polygon.multiBreak(_envelopes.Select(e => e._polygon).ToList());
+            this.roadBorders = Polygon.Union(_envelopes.Select(e => e._polygon).ToList());
         }
     }
 }

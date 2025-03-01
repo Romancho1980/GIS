@@ -1,4 +1,5 @@
-﻿using GIS_WinForms.Data.Math_utils;
+﻿using GIS_WinForms.Data._World;
+using GIS_WinForms.Data.Math_utils;
 using GIS_WinForms.Data.Primitives.AUX_Classes;
 using System;
 using System.Collections.Generic;
@@ -57,12 +58,21 @@ namespace GIS_WinForms.Data.Primitives
             }
             //Point[] pts = _pointsList.ToArray();
             ConvertListToPoint(_points);
-            Color fillcolor = Color.FromArgb((int)(255*0.3), 0, 0, 255);
+            // Color fillcolor = Color.FromArgb((int)(255*0.3), 0, 0, 255);
+            
+            Color fillcolor = polyOptions.Fill;
             Color col = Color.Yellow;
 
             if (polyOptions.Stroke == "blue") col = Color.Blue;
+            else
+                if (polyOptions.Stroke.Equals("#BBB"))
+                col = Color.FromArgb(0xB, 0xB, 0xB);
+            else
+                if (polyOptions.Stroke.Equals("red"))
+                col = Color.Red;
 
-            col = Color.Red;
+
+            //col = Color.Red;
             Pen pen = new Pen(col,polyOptions.LineWidth);
 
             Brush brush = new SolidBrush(fillcolor);
@@ -73,6 +83,13 @@ namespace GIS_WinForms.Data.Primitives
         }
 
 
+        public void DrawSegments(PaintEventArgs e)
+        {
+            foreach (var seg in _segments) 
+            {
+                seg.Draw(e,5, "random");
+            }
+        }
 
         public static List<MyPoints> breakPolygon(Polygon poly1, Polygon poly2)
         {
@@ -93,9 +110,76 @@ namespace GIS_WinForms.Data.Primitives
                     {
                         MyPoints point = new(inter.Value.X,inter.Value.Y);
                         intersection.Add(point);
+
+                        MyPoints aux = segm1[i].P2;
+                        segm1[i].P2 = point;
+                        segm1.RemoveRange(i + 1, 0);
+                        segm1.Insert(i + 1, new Segment(point, aux));
+
+                        aux = segm2[j].P2;
+                        segm2[j].P2 = point;
+                        segm2.RemoveRange(j + 1, 0);
+                        segm2.Insert(j + 1, new Segment(point, aux));
                     }
                 }
             return intersection;
+        }
+
+        public static List<Segment> Union(List<Polygon> polys)
+        {
+            Polygon.multiBreak(polys);
+            List<Segment> Keptsegments = new List<Segment>();
+
+            for (int i = 0; i < polys.Count; i++)
+                foreach (Segment seg in polys[i]._segments)
+                {
+                    bool kept = true;
+                    for (int j = 0; j < polys.Count; j++)
+                    {
+                        if (i != j) 
+                        {
+                            if (polys[j].containsSegment(seg))
+                            {
+                                kept = false;
+                                break;
+                            }
+                        }
+                    }
+                    if (kept == true)
+                    {
+                        Keptsegments.Add(seg);
+                    }
+
+                }
+            return Keptsegments;
+        }
+        public bool containsSegment(Segment seg)
+        {
+            MyPoints midpoint = Math_utils.Utils.Average(seg.P1, seg.P2);
+            return this.containsPoint(midpoint);
+        }
+
+        public bool containsPoint(MyPoints midpoint)
+        {
+            MyPoints outerPoint = new MyPoints(-1000, -1000);
+            int intersectionCount = 0;
+            foreach(var seg in _segments)
+            {
+                var intersect = Math_utils.Utils.getInterSection(outerPoint, midpoint, seg.P1, seg.P2);
+                if (intersect != null)
+                {
+                    intersectionCount++;
+                }
+            }
+
+            return ((intersectionCount % 2) == 1) ;
+        }
+
+        public static void multiBreak(List<Polygon> polys)
+        {
+            for (int i = 0; i < polys.Count - 1; i++)
+                for (int j = i; j < polys.Count; j++)
+                    Polygon.breakPolygon(polys[i], polys[j]);
         }
     }
 }

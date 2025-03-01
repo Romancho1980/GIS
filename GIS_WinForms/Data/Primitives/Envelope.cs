@@ -1,4 +1,5 @@
 ﻿using GIS_WinForms.Data.Math_utils;
+using GIS_WinForms.Data.Primitives.AUX_Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,9 +52,10 @@ namespace GIS_WinForms.Data.Primitives
             return new Polygon(poly);
         }
 
-        public void DrawEnvelope(PaintEventArgs e)
+        public void DrawEnvelope(PaintEventArgs e,PolyOptions options)
         {
-            _polygon.DrawPolygon(e);
+            _polygon.DrawPolygon(e,options);
+            //_polygon.DrawSegments(e);
         }
     }
 }
