@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TmpConsole.TmpServices
+﻿namespace TmpConsole.TmpServices
 {
     internal class MyPoint
     {
@@ -24,7 +18,7 @@ namespace TmpConsole.TmpServices
         }
 
 
-        public void Change(MyPoint point,int num)
+        public void Change(MyPoint point, int num)
         {
             point.X = num;
             point.Y = num;

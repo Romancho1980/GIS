@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GIS_WinForms.Data.Primitives
+﻿namespace GIS_WinForms.Data.Primitives
 {
     public class Vertices
     {
@@ -28,7 +22,7 @@ namespace GIS_WinForms.Data.Primitives
         {
             if (data != null)
             {
-                this.X = data.X; 
+                this.X = data.X;
                 this.Y = data.Y;
             }
         }
@@ -44,7 +38,7 @@ namespace GIS_WinForms.Data.Primitives
         }
         public void Draw(PaintEventArgs e, MyPoints point, int size = 15, string color = "Black", bool outline = false)
         {
-            int radius = size ;
+            int radius = size;
             int centerX = radius / 2;
             int centerY = radius / 2;
 

@@ -1,15 +1,14 @@
 ﻿using GIS_WinForms.Data._World;
 using GIS_WinForms.Data.Math_utils;
 using GIS_WinForms.Data.Primitives;
-using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Drawing.Drawing2D;
 
 namespace GIS_WinForms.ViewsElements
 {
-    public class CustomPanel:Panel
+    public class CustomPanel : Panel
     {
-      //  World world;
+        //  World world;
 
         Graph graph;
         World world;
@@ -17,11 +16,11 @@ namespace GIS_WinForms.ViewsElements
         GraphEditor graphEditor;
         Viewport viewport;
 
-        MyPoints Offset {  get; set; }
+        MyPoints Offset { get; set; }
 
         private void InitPanel()
         {
-            Offset = new MyPoints();    
+            Offset = new MyPoints();
             Dock = DockStyle.None;
             Width = 905;
             Height = 485;
@@ -83,8 +82,8 @@ namespace GIS_WinForms.ViewsElements
 
             e.Graphics.TranslateTransform(viewport.Center.X, viewport.Center.Y);
             e.Graphics.ScaleTransform(1 / viewport.zoom, 1 / viewport.zoom);
-//            Vertices tmp_Offset = new Vertices();
-//            tmp_Offset = viewport.getOffset();
+            //            Vertices tmp_Offset = new Vertices();
+            //            tmp_Offset = viewport.getOffset();
             Offset = viewport.getOffset();
             e.Graphics.TranslateTransform(Offset.X, Offset.Y);
 
@@ -99,8 +98,8 @@ namespace GIS_WinForms.ViewsElements
             //Polygon pol = new(graph.vertices);
             //pol.DrawPolygon(e);
 
-           // Envelope env = new(graph.segments[0], 80);
-           // env.DrawEnvelope(e);
+            // Envelope env = new(graph.segments[0], 80);
+            // env.DrawEnvelope(e);
 
             graphEditor.display(e);
 
@@ -115,14 +114,14 @@ namespace GIS_WinForms.ViewsElements
             Random rnd = new Random();
             //double a1, a2;
             //int x1, y1;
-            double rnd1= rnd.NextDouble();
-            double rnd2= rnd.NextDouble();
+            double rnd1 = rnd.NextDouble();
+            double rnd2 = rnd.NextDouble();
 
 
             //rnd1 = 0.5; // Для тестирования
             //rnd2 = 0.5;
-            bool success= graph.TryAddPoint(new MyPoints(Convert.ToInt32(rnd1* graph.Xmax), 
-                                        Convert.ToInt32(rnd2* graph.Ymax)));
+            bool success = graph.TryAddPoint(new MyPoints(Convert.ToInt32(rnd1 * graph.Xmax),
+                                        Convert.ToInt32(rnd2 * graph.Ymax)));
 
             Debug.WriteLine($" Success : {success}");
 
@@ -133,9 +132,9 @@ namespace GIS_WinForms.ViewsElements
         {
             Random rnd = new Random();
             bool Success = false;
-            double rndIndex1=rnd.NextDouble() * (graph.vertices.Count-1);
+            double rndIndex1 = rnd.NextDouble() * (graph.vertices.Count - 1);
             rnd.NextDouble();
-            double rndIndex2=rnd.NextDouble() * (graph.vertices.Count-1);
+            double rndIndex2 = rnd.NextDouble() * (graph.vertices.Count - 1);
 
             int index1 = Convert.ToInt32(rndIndex1);
             int index2 = Convert.ToInt32(rndIndex2);
@@ -147,12 +146,12 @@ namespace GIS_WinForms.ViewsElements
             Debug.WriteLine($"rndIndex1: {index1}");
             Debug.WriteLine($"rndIndex2: {index2}");
 
-            if (index1>=0  && index2>=0)
-            if (index1!=index2)
-            {
-                Success= graph.TryAddSegment(new Segment(graph.vertices[index1],
-                                                graph.vertices[index2]));
-            }
+            if (index1 >= 0 && index2 >= 0)
+                if (index1 != index2)
+                {
+                    Success = graph.TryAddSegment(new Segment(graph.vertices[index1],
+                                                    graph.vertices[index2]));
+                }
 
             Debug.WriteLine($"Success: {Success}");
             Debug.WriteLine($"Количество Сегментов {graph.segments.Count}");
@@ -161,7 +160,7 @@ namespace GIS_WinForms.ViewsElements
 
         internal void removeRandomSegment()
         {
-            if (graph.segments.Count==0)
+            if (graph.segments.Count == 0)
             {
                 Debug.WriteLine("No Segments");
                 return;

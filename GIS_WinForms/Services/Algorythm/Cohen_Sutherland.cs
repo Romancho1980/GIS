@@ -1,9 +1,4 @@
 ﻿using GIS_WinForms.Data.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GIS_WinForms.Services.Algorythm
 {
@@ -30,7 +25,7 @@ namespace GIS_WinForms.Services.Algorythm
         public Cohen_Sutherland()
         {
             _line = new List<Segment>();
-            _viewPort= new List<MyPoints>();
+            _viewPort = new List<MyPoints>();
         }
 
         public void SetViewport(List<MyPoints> Viewport)
@@ -107,7 +102,7 @@ namespace GIS_WinForms.Services.Algorythm
         {
             int Code_P1 = ComputeCode(line.P1);
             int Code_P2 = ComputeCode(line.P2);
-            int result=Code_P1 & Code_P2;
+            int result = Code_P1 & Code_P2;
 
             bool accept = false;
             while (true)

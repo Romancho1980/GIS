@@ -1,9 +1,4 @@
 ﻿using GIS_WPF.Data.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GIS_WPF.Data.Services
 {
@@ -27,7 +22,7 @@ namespace GIS_WPF.Data.Services
         private int Ymax;
 
 
-        public Cohen_Sutherland(List<Line2D> line,List<Point2D> viewPort)
+        public Cohen_Sutherland(List<Line2D> line, List<Point2D> viewPort)
         {
             _line = line;
             _viewPort = viewPort;
@@ -41,7 +36,7 @@ namespace GIS_WPF.Data.Services
 
         public List<Point2D> ClipLine()
         {
-            foreach(var pt in _line) 
+            foreach (var pt in _line)
             {
                 Check_Line(pt);
             }
@@ -78,26 +73,26 @@ namespace GIS_WPF.Data.Services
 
             //foreach(var pt in viewport_lines)
 
-                int num1 = getXorY(line.P1);
-                int num2 = getXorY(line.P2);
-                if ((num1 == 0) && (num2 == 0))
-                {
-                    line.descr = "Inside ViewPort";
-                    line.line = 1;
-                }
-                else
-                    if ((num1 & num2) != 0)
-                {
-                    line.descr = "Не пересекает ViewPort";
-                    line.line = 2;
+            int num1 = getXorY(line.P1);
+            int num2 = getXorY(line.P2);
+            if ((num1 == 0) && (num2 == 0))
+            {
+                line.descr = "Inside ViewPort";
+                line.line = 1;
+            }
+            else
+                if ((num1 & num2) != 0)
+            {
+                line.descr = "Не пересекает ViewPort";
+                line.line = 2;
 
-                }
-                else
-                    if ((num1 & num2) != 0)
-                {
-                    line.descr = "Возможно пересекает ViewPort";
-                    line.line = 3;
-                }
+            }
+            else
+                if ((num1 & num2) != 0)
+            {
+                line.descr = "Возможно пересекает ViewPort";
+                line.line = 3;
             }
         }
     }
+}

@@ -1,15 +1,6 @@
 ﻿using GIS_WinForms.Data.Math_utils;
 using GIS_WinForms.Data.Primitives;
 using GIS_WinForms.Data.Primitives.AUX_Classes;
-using GIS_WinForms.Services.Algorythm;
-using Microsoft.VisualBasic.Logging;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection.PortableExecutable;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GIS_WinForms.Data._World
 {
@@ -32,7 +23,7 @@ namespace GIS_WinForms.Data._World
             _vertices = new Vertices();
             _envelopes = new List<Envelope>();
             _intersection = new List<MyPoints>();
-            roadBorders=new List<Segment>();
+            roadBorders = new List<Segment>();
 
             Generate();
 
@@ -40,18 +31,19 @@ namespace GIS_WinForms.Data._World
 
         public void DrawWorld(PaintEventArgs e)
         {
-            PolyOptions options= new PolyOptions();
+            PolyOptions options = new PolyOptions();
             foreach (var env in _envelopes)
             {
                 int col = 200;
-                options.Fill = Color.FromArgb(255, col, col, col) ; // BBB - > fill
+                options.Fill = Color.FromArgb(255, col, col, col); // BBB - > fill
                 options.Stroke = "#BBB";
-                env.DrawEnvelope(e,options);
+                options.LineWidth = 15;
+                env.DrawEnvelope(e, options);
             }
 
-            foreach(var seg in roadBorders)
+            foreach (var seg in roadBorders)
             {
-                seg.Draw(e, 4, "white");
+                //  seg.Draw(e, 4, "white");
             }
             //foreach (var inter in _intersection)
             //{
@@ -63,7 +55,7 @@ namespace GIS_WinForms.Data._World
         {
             _envelopes.Clear();
 
-            foreach (var seg in _graph.segments) 
+            foreach (var seg in _graph.segments)
             {
                 _envelopes.Add(new Envelope(seg, _roadWidth, _roadRoundness));
             }

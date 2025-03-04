@@ -1,9 +1,4 @@
 ﻿using GIS_WinForms.Data.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GIS_WinForms.Data.Math_utils
 {
@@ -17,7 +12,7 @@ namespace GIS_WinForms.Data.Math_utils
 
             foreach (var point in points)
             {
-               // double dist = distance(point, loc);
+                // double dist = distance(point, loc);
                 double dist = distance_wo_sqrt(point, loc);
                 if (dist < minDist && dist < threshold)
                 {
@@ -131,6 +126,6 @@ namespace GIS_WinForms.Data.Math_utils
             return string.Format("hsl({0},100%,60%)", hue);
         }
 
-       
+
     }
 }

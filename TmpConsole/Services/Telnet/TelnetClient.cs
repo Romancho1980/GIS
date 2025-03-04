@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
+﻿using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace TmpConsole.Services.TelnetClient
 {
@@ -23,7 +19,7 @@ namespace TmpConsole.Services.TelnetClient
         public async Task SendAsync(string message)
         {
             byte[] buffer = Encoding.ASCII.GetBytes(message);
-            if (_stream!=null) 
+            if (_stream != null)
                 await _stream.WriteAsync(buffer, 0, buffer.Length);
             Console.WriteLine("Отправлено:" + message);
         }
@@ -32,7 +28,7 @@ namespace TmpConsole.Services.TelnetClient
         {
             byte[] buffer = new byte[1024];
             int bytesRead = 0;
-            if (_stream!= null) bytesRead= await _stream.ReadAsync(buffer, 0, buffer.Length);
+            if (_stream != null) bytesRead = await _stream.ReadAsync(buffer, 0, buffer.Length);
             string response = Encoding.ASCII.GetString(buffer, 0, bytesRead);
             Console.WriteLine("Получено:" + response);
             return response;

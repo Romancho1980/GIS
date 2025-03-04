@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TmpConsole.Sandbox
+﻿namespace TmpConsole.Sandbox
 {
     internal class graph
     {
-        public List<edge> edges=new List<edge>();
-        public List<vert> point=new List<vert>();
+        public List<edge> edges = new List<edge>();
+        public List<vert> point = new List<vert>();
         public graph()
         {
             point.Add(new vert(0, 0));

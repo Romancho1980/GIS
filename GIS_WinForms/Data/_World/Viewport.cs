@@ -1,13 +1,6 @@
 ﻿using GIS_WinForms.Data.Math_utils;
 using GIS_WinForms.Data.Primitives;
 using GIS_WinForms.ViewsElements;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
 
 namespace GIS_WinForms.Data._World
 {
@@ -106,7 +99,7 @@ namespace GIS_WinForms.Data._World
 
         private void HandleMiddleMouseDown(object? sender, MouseEventArgs e)
         {
-           // Debug.WriteLine("Mouse button Down");
+            // Debug.WriteLine("Mouse button Down");
 
             // Проверяем нажата ли средняя кнопка мыши
             if (e.Button == MouseButtons.Middle)
@@ -125,10 +118,10 @@ namespace GIS_WinForms.Data._World
 
         private void HandleMouseWheel(object? sender, MouseEventArgs e)
         {
-            var direction=Math.Sign(e.Delta);
+            var direction = Math.Sign(e.Delta);
             var step = 0.1F;
             zoom += direction * step;
-            zoom = Math.Max(1,Math.Min(5,zoom));
+            zoom = Math.Max(1, Math.Min(5, zoom));
             panel.Refresh();
         }
 

@@ -1,8 +1,5 @@
 ﻿
 using TmpConsole.Sandbox;
-using TmpConsole.Services.Telnet;
-using TmpConsole.Services.TelnetClient;
-using TmpConsole.TmpServices;
 using WinForm_ForTests.Data;
 
 namespace TmpConsole

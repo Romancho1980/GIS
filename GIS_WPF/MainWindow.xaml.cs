@@ -1,14 +1,6 @@
 ﻿using GIS_WPF.Data.Primitives;
-using System;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace GIS_WPF
@@ -27,10 +19,10 @@ namespace GIS_WPF
         int Ymax = 750;
 
         List<Point2D> viewport_points = new List<Point2D>();
-        List<Point2D> buffer_points   = new List<Point2D>();
+        List<Point2D> buffer_points = new List<Point2D>();
 
         List<Line2D> viewport_lines = new List<Line2D>();
-        List<Line2D> buffer_lines   = new List<Line2D>();
+        List<Line2D> buffer_lines = new List<Line2D>();
         public MainWindow()
         {
             viewport_points.Add(new Point2D(Xmin, Ymin));
@@ -43,9 +35,9 @@ namespace GIS_WPF
             viewport_lines.Add(new Line2D(viewport_points[2], viewport_points[3]));
             viewport_lines.Add(new Line2D(viewport_points[3], viewport_points[0]));
 
-            buffer_points.Add(new Point2D(380, 30)); 
+            buffer_points.Add(new Point2D(380, 30));
             buffer_points.Add(new Point2D(850, 600));
-            buffer_points.Add(new Point2D(100,  600));
+            buffer_points.Add(new Point2D(100, 600));
 
 
             buffer_lines.Add(new Line2D(buffer_points[0], buffer_points[1]));
@@ -99,11 +91,11 @@ namespace GIS_WPF
 
             }
 
-            if (line.line==3) //Пересекает и находим точки пересечения с Viewport'ом
+            if (line.line == 3) //Пересекает и находим точки пересечения с Viewport'ом
             {
-                for(int i = 0; i < 4; i++)
+                for (int i = 0; i < 4; i++)
                 {
-                    int num=getXorY(line.P1);
+                    int num = getXorY(line.P1);
                     if (num != 0) // т.е. Первая точка линии точно не попадает в Viewport
                     {
 
@@ -113,16 +105,16 @@ namespace GIS_WPF
         }
         private void Check_Lines()
         {
-            byte LEFT_OF_VIEWPORT  = 1; // левее
+            byte LEFT_OF_VIEWPORT = 1; // левее
             byte RIGHT_OF_VIEWPORT = 2; // правее
             byte ABOVE_OF_VIEWPORT = 4; // выше
             byte BELOW_OF_VIEWPORT = 8; // ниже
 
-            int[] tmp= new int[3];
+            int[] tmp = new int[3];
             int iterrator = 0;
 
             //foreach(var pt in viewport_lines)
-            for (int i = 0; i < buffer_lines.Count; i++) 
+            for (int i = 0; i < buffer_lines.Count; i++)
             {
                 Cohen(buffer_lines[i]);
                 //int num1 = getXorY(buffer_lines[i].P1);
@@ -168,7 +160,7 @@ namespace GIS_WPF
 
         private void Draw()
         {
-            foreach(var pt in viewport_lines)
+            foreach (var pt in viewport_lines)
             {
                 Line line = new Line();
                 line.X1 = pt.P1.X;
@@ -191,7 +183,7 @@ namespace GIS_WPF
             //}
 
             //for (int i = 0; i < buffer_points.Count; i++)
-            foreach(var pt in buffer_lines)
+            foreach (var pt in buffer_lines)
             {
                 Line line = new Line();
                 //line.X1 = buffer_points[i].X;
@@ -205,7 +197,7 @@ namespace GIS_WPF
                 line.Y2 = pt.P2.Y;
                 line.Stroke = Brushes.Red;
 
-                if (pt.line == 1) 
+                if (pt.line == 1)
                     line.Stroke = Brushes.Purple;
                 else
                     if (pt.line == 2)

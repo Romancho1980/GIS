@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GIS_WPF.Data.Primitives
+﻿namespace GIS_WPF.Data.Primitives
 {
     public class Line2D
     {
@@ -21,7 +15,7 @@ namespace GIS_WPF.Data.Primitives
 
         public string descr { get; set; } = "";
 
-        public Line2D(Point2D p1,Point2D p2)
+        public Line2D(Point2D p1, Point2D p2)
         {
             P1 = p1;
             P2 = p2;

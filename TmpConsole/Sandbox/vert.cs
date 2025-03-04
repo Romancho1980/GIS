@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TmpConsole.Sandbox
+﻿namespace TmpConsole.Sandbox
 {
     internal class vert//:ICloneable
     {
@@ -16,10 +10,10 @@ namespace TmpConsole.Sandbox
             X = 0;
             Y = 0;
         }
-        public vert(int x,int y)
+        public vert(int x, int y)
         {
             X = x;
-            Y = y; 
+            Y = y;
         }
 
 

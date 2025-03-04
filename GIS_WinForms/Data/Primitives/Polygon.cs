@@ -1,11 +1,5 @@
-﻿using GIS_WinForms.Data._World;
-using GIS_WinForms.Data.Math_utils;
+﻿using GIS_WinForms.Data.Math_utils;
 using GIS_WinForms.Data.Primitives.AUX_Classes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GIS_WinForms.Data.Primitives
 {
@@ -25,9 +19,9 @@ namespace GIS_WinForms.Data.Primitives
         {
             _points = myPoints;
 
-            _segments=new List<Segment>();
+            _segments = new List<Segment>();
 
-            for (int i = 1; i < myPoints.Count + 1; i++) 
+            for (int i = 1; i < myPoints.Count + 1; i++)
             {
                 _segments.Add(new Segment(myPoints[i - 1], myPoints[i % myPoints.Count]));
             }
@@ -59,7 +53,7 @@ namespace GIS_WinForms.Data.Primitives
             //Point[] pts = _pointsList.ToArray();
             ConvertListToPoint(_points);
             // Color fillcolor = Color.FromArgb((int)(255*0.3), 0, 0, 255);
-            
+
             Color fillcolor = polyOptions.Fill;
             Color col = Color.Yellow;
 
@@ -73,7 +67,7 @@ namespace GIS_WinForms.Data.Primitives
 
 
             //col = Color.Red;
-            Pen pen = new Pen(col,polyOptions.LineWidth);
+            Pen pen = new Pen(col, polyOptions.LineWidth);
 
             Brush brush = new SolidBrush(fillcolor);
             e.Graphics.FillPolygon(brush, _vertices);
@@ -85,9 +79,9 @@ namespace GIS_WinForms.Data.Primitives
 
         public void DrawSegments(PaintEventArgs e)
         {
-            foreach (var seg in _segments) 
+            foreach (var seg in _segments)
             {
-                seg.Draw(e,5, "random");
+                seg.Draw(e, 5, "random");
             }
         }
 
@@ -97,28 +91,28 @@ namespace GIS_WinForms.Data.Primitives
             var segm2 = poly2._segments;
             List<MyPoints> intersection = new List<MyPoints>();
 
-            for (int i = 0; i < segm1.Count; i++) 
-                for (int j = 0; j < segm2.Count; j++) 
+            for (int i = 0; i < segm1.Count; i++)
+                for (int j = 0; j < segm2.Count; j++)
                 {
                     var inter = Utils.getInterSection(segm1[i].P1, segm1[i].P2,
                                                      segm2[j].P1, segm2[j].P2);
 
                     double off;
-                    if (inter.HasValue == true) 
+                    if (inter.HasValue == true)
                         off = inter.Value.Offset;
-                    if (inter.HasValue == true && inter.Value.Offset !=1 && inter.Value.Offset!=0)
+                    if (inter.HasValue == true && inter.Value.Offset != 1 && inter.Value.Offset != 0)
                     {
-                        MyPoints point = new(inter.Value.X,inter.Value.Y);
+                        MyPoints point = new(inter.Value.X, inter.Value.Y);
                         intersection.Add(point);
 
                         MyPoints aux = segm1[i].P2;
                         segm1[i].P2 = point;
-                        segm1.RemoveRange(i + 1, 0);
+                        //segm1.RemoveRange(i + 1, 0);
                         segm1.Insert(i + 1, new Segment(point, aux));
 
                         aux = segm2[j].P2;
                         segm2[j].P2 = point;
-                        segm2.RemoveRange(j + 1, 0);
+                        //segm2.RemoveRange(j + 1, 0);
                         segm2.Insert(j + 1, new Segment(point, aux));
                     }
                 }
@@ -136,7 +130,7 @@ namespace GIS_WinForms.Data.Primitives
                     bool kept = true;
                     for (int j = 0; j < polys.Count; j++)
                     {
-                        if (i != j) 
+                        if (i != j)
                         {
                             if (polys[j].containsSegment(seg))
                             {
@@ -163,7 +157,7 @@ namespace GIS_WinForms.Data.Primitives
         {
             MyPoints outerPoint = new MyPoints(-1000, -1000);
             int intersectionCount = 0;
-            foreach(var seg in _segments)
+            foreach (var seg in _segments)
             {
                 var intersect = Math_utils.Utils.getInterSection(outerPoint, midpoint, seg.P1, seg.P2);
                 if (intersect != null)
@@ -172,7 +166,7 @@ namespace GIS_WinForms.Data.Primitives
                 }
             }
 
-            return ((intersectionCount % 2) == 1) ;
+            return ((intersectionCount % 2) == 1);
         }
 
         public static void multiBreak(List<Polygon> polys)

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.DirectoryServices.ActiveDirectory;
-using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Security.Authentication.ExtendedProtection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing.Drawing2D;
 
 namespace GIS_WinForms.Data.Primitives
 {
@@ -37,8 +30,8 @@ namespace GIS_WinForms.Data.Primitives
             P1_Clip = new MyPoints();
             P2_Clip = new MyPoints();
 
-            P1pointF= new PointF(); 
-            P2pointF= new PointF(); 
+            P1pointF = new PointF();
+            P2pointF = new PointF();
 
         }
         public override string ToString()
@@ -82,10 +75,10 @@ namespace GIS_WinForms.Data.Primitives
 
         public Segment(int x1, int y1, int x2, int y2)// : this()
         {
-            P1=new MyPoints(x1,y1);
-            P2=new MyPoints(x2,y2);
+            P1 = new MyPoints(x1, y1);
+            P2 = new MyPoints(x2, y2);
 
-            P1_Clip= new MyPoints(x1,y1);
+            P1_Clip = new MyPoints(x1, y1);
             P2_Clip = new MyPoints(x2, y2);
 
             P1pointF = new PointF(x1, y1);
@@ -113,7 +106,7 @@ namespace GIS_WinForms.Data.Primitives
                 pen.Color = Color.White;
             else
             if (color.Equals("black"))
-                pen.Color=Color.Black;
+                pen.Color = Color.Black;
 
 
 
@@ -140,13 +133,13 @@ namespace GIS_WinForms.Data.Primitives
             // e.Graphics.DrawLine(pen,new PointF(P1_Clip.X,P1_Clip.Y),new PointF(P2_Clip.X,P2_Clip.Y)); 
 
             e.Graphics.DrawLine(pen, new PointF(P1.X, P1.Y), new PointF(P2.X, P2.Y)); // P1 P2 - Не используя алгоритм К-З :)
-           // e.Graphics.DrawLine(Pens.Black, P1pointF,P2pointF);
+                                                                                      // e.Graphics.DrawLine(Pens.Black, P1pointF,P2pointF);
         }
 
 
         internal void ClipAndDrawSegment(PaintEventArgs e)
         {
-            if (Visible==true) 
+            if (Visible == true)
             {
 
             }
@@ -162,7 +155,7 @@ namespace GIS_WinForms.Data.Primitives
 
         public bool IncludesPoint(MyPoints vert)
         {
-            if ((this.P1.Equals(vert) == true)||(this.P2.Equals(vert) == true)) return true;
+            if ((this.P1.Equals(vert) == true) || (this.P2.Equals(vert) == true)) return true;
             return false;
         }
     }

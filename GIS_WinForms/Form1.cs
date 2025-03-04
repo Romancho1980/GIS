@@ -1,5 +1,4 @@
 using GIS_WinForms.ViewsElements;
-using System.Diagnostics;
 
 namespace GIS_WinForms
 {

@@ -47,7 +47,7 @@ namespace WinForm_ForTests
             Draw(e);
             e.Graphics.TranslateTransform(200, 100);
             Draw(e);
-            e.Graphics.ScaleTransform(1/Zoom, 1/Zoom);
+            e.Graphics.ScaleTransform(1 / Zoom, 1 / Zoom);
             Draw(e);
             e.Graphics.Restore(state);
             Debug.WriteLine($"Zoom = {Zoom}");

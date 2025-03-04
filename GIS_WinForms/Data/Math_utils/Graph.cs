@@ -84,7 +84,7 @@ namespace GIS_WinForms.Data.Math_utils
             vertices.Add(new MyPoints(200, 100));
             vertices.Add(new MyPoints(200, 400));
             vertices.Add(new MyPoints(350, 400));
-          //  vertices.Add(new MyPoints(350, 250));
+            //  vertices.Add(new MyPoints(350, 250));
 
 
             //vertices.Add(new MyPoints(200, 200));

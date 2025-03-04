@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace JustTesting.Data
+﻿namespace JustTesting.Data
 {
     public class Vertex
     {
@@ -26,8 +20,8 @@ namespace JustTesting.Data
 
         public void InitList()
         {
-            Random random= new Random();
-            int rndX,rndY;
+            Random random = new Random();
+            int rndX, rndY;
             for (int i = 0; i < 50_000; i++) ;
             {
                 rndX = random.Next();

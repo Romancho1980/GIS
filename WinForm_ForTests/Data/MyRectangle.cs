@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WinForm_ForTests.Data
+﻿namespace WinForm_ForTests.Data
 {
     internal class MyRectangle
     {
@@ -15,10 +9,10 @@ namespace WinForm_ForTests.Data
 
         public MyRectangle(int x1, int y1, int x2, int y2)
         {
-            X1= x1;
-            X2= x2;
-            Y1= y1;
-            Y2= y2;
+            X1 = x1;
+            X2 = x2;
+            Y1 = y1;
+            Y2 = y2;
         }
     }
 }

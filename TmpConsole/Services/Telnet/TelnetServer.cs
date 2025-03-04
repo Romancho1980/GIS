@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace TmpConsole.Services.Telnet
 {
@@ -19,14 +14,14 @@ namespace TmpConsole.Services.Telnet
         {
             _listener = new TcpListener(IPAddress.Parse(ipAddress), port);
             _listener.Start();
-            _isRunning= true;
+            _isRunning = true;
             Console.WriteLine($"Telnet сервер запущен {ipAddress}:{port}");
             while (_isRunning == true)
             {
                 TcpClient client = await _listener.AcceptTcpClientAsync();
                 Console.WriteLine("Client connected");
                 // _ = HandleClientAsync(client);
-                _ =HandleClientAsync(client);
+                _ = HandleClientAsync(client);
             }
         }
 
@@ -41,7 +36,7 @@ namespace TmpConsole.Services.Telnet
         private async Task HandleClientAsync(TcpClient client)
         {
             byte[] buffer = new byte[1024];
-            StringBuilder inputBuffer=new StringBuilder();
+            StringBuilder inputBuffer = new StringBuilder();
 
             using (NetworkStream stream = client.GetStream())
             {
@@ -53,13 +48,13 @@ namespace TmpConsole.Services.Telnet
                         if (bytesRead == 0) break;
                         string receivedData = Encoding.ASCII.GetString(buffer, 0, bytesRead);
                         inputBuffer.Append(receivedData);
-                        if (receivedData.Contains("\r\n") ||  receivedData.Contains("\n"))
+                        if (receivedData.Contains("\r\n") || receivedData.Contains("\n"))
                         {
                             string command = inputBuffer.ToString().Trim();
                             Console.WriteLine("Received:" + command);
 
                             string response = ProcessCommand(command);
-                            
+
 
                             byte[] responseBytes = Encoding.ASCII.GetBytes(response + "\r\n");
                             await stream.WriteAsync(responseBytes, 0, responseBytes.Length);
@@ -91,7 +86,7 @@ namespace TmpConsole.Services.Telnet
 
         private string ProcessCommand(string command)
         {
-            switch(command.ToLower())
+            switch (command.ToLower())
             {
                 case "hello":
                     return "Hello Client\r\n";
@@ -109,10 +104,10 @@ namespace TmpConsole.Services.Telnet
 
                 case "help":
                     return "******** Telnet Server ******\r\n" +
-                           "type\r\n"+
-                           "hello - get Hello from server\r\n"+
-                           "time - get current time\r\n"+
-                           "get all clients - get all client from Database \r\n"+
+                           "type\r\n" +
+                           "hello - get Hello from server\r\n" +
+                           "time - get current time\r\n" +
+                           "get all clients - get all client from Database \r\n" +
                            "exit - stop connection to server \r\n";
 
                 default:
